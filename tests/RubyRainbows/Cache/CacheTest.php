@@ -1,11 +1,13 @@
 <?php
 
+use RubyRainbows\Cache\Cache;
+
 class CacheTest extends TestCase
 {
-    public function testTrueIsTrue()
+    public function testCacheSetup()
     {
-        $foo = true;
+        Cache::setup(Cache::REDIS_CACHE);
 
-        $this->assertTrue($foo);
+        $this->assertEquals(Cache::REDIS_CACHE, Cache::currentCache());
     }
 }
