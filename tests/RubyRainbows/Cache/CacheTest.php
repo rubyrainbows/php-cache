@@ -1,6 +1,6 @@
 <?php
 
-class CacheTest extends \PHPUnit_Framework_TestCase
+class CacheTest extends TestCase
 {
     public function testTrueIsTrue()
     {
