@@ -1,0 +1,12 @@
+vendor/
+
+composer.phar
+
+# Intellij
+.idea/
+.idea/*
+*.iml
+*.iws
+.project
+org.eclipse.core.resources.prefs
+id
