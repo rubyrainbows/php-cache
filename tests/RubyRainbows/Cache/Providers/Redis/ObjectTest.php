@@ -14,14 +14,14 @@ class ObjectTest extends TestCase
     public function testSet()
     {
         $object = new Object('foo_key', ['foo' => 'bar']);
-        $object->set('foo', 'bar2');
+        $object->foo = 'bar2';
         $this->assertEquals('bar2', Client::hget('foo_key', 'foo'));
     }
 
     public function testGet()
     {
         $object = new Object('foo_key', ['foo' => 'bar']);
-        $this->assertEquals('bar', $object->get('foo'));
+        $this->assertEquals('bar', $object->foo);
     }
 
     public function testGetAll()

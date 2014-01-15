@@ -4,8 +4,8 @@ namespace RubyRainbows\Cache\Providers\Redis;
 
 class Object
 {
-    private static $key = "";
-
+    private static $key     = "";
+    private static $data    = [];
     /**
      * Constructs a redis object
      *
@@ -20,6 +20,8 @@ class Object
         {
             Client::hset(self::$key, $data_key, $value);
         }
+
+        self::$data = $this->getAll();
     }
 
     /**
@@ -28,9 +30,11 @@ class Object
      * @param $field
      * @param $value
      */
-    public function set($field, $value)
+    public function __set($field, $value)
     {
         Client::hset(self::$key, $field, $value);
+
+        self::$data = $this->getAll();
     }
 
     /**
@@ -40,7 +44,7 @@ class Object
      *
      * @return mixed
      */
-    public function get($field)
+    public function __get($field)
     {
         return Client::hget(self::$key, $field);
     }
@@ -58,18 +62,25 @@ class Object
     /**
      * Deletes all the data from the redis store
      */
-    public function delete($key)
+    public function delete($key, $refreshData=true)
     {
         Client::hdel(self::$key, $key);
+
+        if ( $refreshData )
+        {
+            self::$data = $this->getAll();
+        }
     }
 
     public function deleteAll()
     {
         $data = Client::hgetall(self::$key);
 
-        foreach ($data as $key => $value)
+        foreach ( $data as $key => $value )
         {
-            $this->delete($key);
+            $this->delete($key, false);
         }
+
+        self::$data = [];
     }
 }
