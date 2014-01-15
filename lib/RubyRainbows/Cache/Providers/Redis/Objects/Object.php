@@ -1,6 +1,8 @@
 <?php
 
-namespace RubyRainbows\Cache\Providers\Redis;
+namespace RubyRainbows\Cache\Providers\Redis\Objects;
+
+use RubyRainbows\Cache\Providers\Redis\Client as Client;
 
 class Object
 {

@@ -1,6 +1,6 @@
 <?php
 
-use RubyRainbows\Cache\Providers\Redis\Object as Object;
+use RubyRainbows\Cache\Providers\Redis\Objects\Object as Object;
 use RubyRainbows\Cache\Providers\Redis\Client as Client;
 
 class ObjectTest extends TestCase
