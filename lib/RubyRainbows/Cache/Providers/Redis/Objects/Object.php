@@ -3,11 +3,13 @@
 namespace RubyRainbows\Cache\Providers\Redis\Objects;
 
 use RubyRainbows\Cache\Providers\Redis\Client as Client;
+use RubyRainbows\Cache\Objects;
 
-class Object
+class Object implements Objects\CachedObject
 {
     private static $key     = "";
     private static $data    = [];
+
     /**
      * Constructs a redis object
      *
@@ -74,6 +76,9 @@ class Object
         }
     }
 
+    /**
+     * Deletes all the data from the redis store for the object
+     */
     public function deleteAll()
     {
         $data = Client::hgetall(self::$key);

@@ -12,20 +12,12 @@ Add the following to your composer.json
 {
     "repositories": [
         {
-            "type": "package",
-            "package": {
-                "name": "RubyRainbows/cache",
-                "version": "master",
-                "source": {
-                    "url": "https://github.com/rubyrainbows/php-cache.git",
-                    "type": "git",
-                    "reference": "master"
-                }
-            }
+            "url": "https://github.com/rubyrainbows/php-cache.git",
+            "type": "vcs"
         }
     ],
     "require": {
-        "RubyRainbows/cache": "master"
+        "RubyRainbows/cache": "@dev"
     }
 }
 ```
