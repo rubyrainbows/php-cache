@@ -77,6 +77,11 @@ $object->delete('random_field');
 
 $deleting all fields from a cached object
 $object->deleteAll();
+
+# A cached object can be retrieved at any time with its id
+$object = Cache::object('cache_key', ['field' => 'value']);
+$field  = $object->field;
+$object = Cache::object('cache_key');
 ```
 
 ### Trees
@@ -116,4 +121,12 @@ $tree->getData();
 # You can also get the data array starting from any node by supplying its id to the getData() function
 $tree->getData(1);
 
+# A tree that has been saved can also be retrieved at a later point with the tree's key
+$tree = Cache::tree('tree');
+
+$root = $tree->makeRootNode(1);
+$root->addChild(2, ['foo' => 'bar']);
+$tree->save();
+
+$tree = Cache::tree('tree');
 ```

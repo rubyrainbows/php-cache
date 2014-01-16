@@ -6,8 +6,8 @@ use RubyRainbows\Cache\Providers\Redis\Objects\Tree as Tree;
 
 class Node
 {
-    private $data       = null;
     private $id         = null;
+    private $data       = null;
     private $tree       = null;
     private $address    = [];
     private $children   = [];
@@ -26,6 +26,8 @@ class Node
         $this->address      = [0];
         $this->id           = $id;
         $this->tree         = $tree;
+
+        $this->resume();
     }
 
     /**
@@ -54,6 +56,18 @@ class Node
     public function __set($field, $value)
     {
         $this->data[$field] = $value;
+    }
+
+    /**
+     * Get the node value from a field
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    public function __get($field)
+    {
+        return $this->data[$field];
     }
 
     /**
@@ -94,6 +108,28 @@ class Node
     public function getAddress()
     {
         return $this->address;
+    }
+
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * Resumes a node
+     */
+    private function resume()
+    {
+        if (array_key_exists('children', $this->data))
+        {
+            $children = (array_key_exists('children', $this->data)) ? $this->data['children'] : [];
+            $this->data['children'] = [];
+
+            foreach ($children as $child_cache)
+            {
+                $this->addChild($child_cache['id'],$child_cache);
+            }
+        }
     }
 
 }

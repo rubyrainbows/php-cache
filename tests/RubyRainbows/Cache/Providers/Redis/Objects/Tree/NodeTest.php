@@ -34,4 +34,24 @@ class NodeTest extends TestCase
         $this->assertEquals([0,1], $child2->getAddress());
     }
 
+    public function testResumeWithoutChild()
+    {
+        $node = new Node("1", null, ["id" => "1", "data" => "foo"]);
+
+        $this->assertEquals(["id" => "1", "data" => "foo"], $node->getData());
+    }
+
+    public function testResumeWithChild()
+    {
+        $node = new Node("1", null, ["id" => "1", "data" => "foo", "children" => [["id" => "2", "foo" => "bar"]]]);
+
+        $this->assertEquals(["id" => "1", "data" => "foo", "children" => [["id" => "2", "foo" => "bar"]]], $node->getData());
+
+        $children = $node->getChildren();
+        $child = $children[0];
+
+        $this->assertEquals('2', $child->id);
+        $this->assertEquals('bar', $child->foo);
+    }
+
 }

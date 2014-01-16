@@ -134,4 +134,20 @@ class TreeTest extends TestCase
         $this->assertEquals($expect, Client::get('tree'));
     }
 
+    public function testTreeResume()
+    {
+        $tree   = new Tree('tree');
+        $root   = $tree->makeRootNode('0', ['foo' => 'bar']);
+        $child  = $root->addChild('1', ["foo" => "bar2"]);
+
+        $child->addChild('2', ['foo' => 'bar3']);
+        $tree->save();
+
+        $expect = $tree->getData();
+
+        $tree = new Tree('tree');
+
+        $this->assertEquals($expect, $tree->getData());
+    }
+
 }

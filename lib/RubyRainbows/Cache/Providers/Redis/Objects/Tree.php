@@ -20,6 +20,8 @@ class Tree
     public function __construct($key)
     {
         $this->key = $key;
+
+        $this->resume();
     }
 
     /**
@@ -108,7 +110,7 @@ class Tree
 
         $cache = RedisClient::get($this->key);
 
-        if ($cache == null)
+        if ($cache == null && $this->root != null)
         {
             return $this->save();
         }
@@ -128,5 +130,16 @@ class Tree
         return $this->key . ":addresses";
     }
 
+    /**
+     * Resumes a tree
+     */
+    private function resume()
+    {
+        $cache = $this->getCachedData();
 
+        if ($cache != null)
+        {
+            $this->root = new Node($cache[0]['id'], $this, $cache[0]);
+        }
+    }
 }
