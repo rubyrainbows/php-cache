@@ -10,4 +10,16 @@ class CacheTest extends TestCase
 
         $this->assertEquals(Cache::REDIS_CACHE, Cache::currentCache());
     }
+
+    public function testObjectFunction()
+    {
+        $object = Cache::object('key', ['foo', 'bar']);
+        $this->assertNotNull($object);
+    }
+
+    public function testTreeFunction()
+    {
+        $tree = Cache::tree('key');
+        $this->assertNotNull($tree);
+    }
 }

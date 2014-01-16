@@ -61,10 +61,10 @@ using RubyRainbows\Cache;
 # cache setup
 
 # make a cached object with no data
-$object = Cache::getObject('cache_key');
+$object = Cache::object('cache_key');
 
 # make a cached object with data
-$object = Cache::getObject('cache_key', ['field' => 'value']);
+$object = Cache::object('cache_key', ['field' => 'value']);
 
 # getting a value from a cached object
 $field = $object->field;
@@ -89,7 +89,7 @@ using RubyRainbows\Cache;
 # cache setup
 
 # making a tree
-$tree = new Tree('key');
+$tree = Cache::tree('key');
 
 # creating a root node
 #
