@@ -142,4 +142,28 @@ class Tree
             $this->root = new Node($cache[0]['id'], $this, $cache[0]);
         }
     }
+
+    /**
+     * Returns an array of ids from the nodes in the branch
+     *
+     * @param $id
+     *
+     * @return array
+     */
+    public function branch($id)
+    {
+        $nodes  = $this->getData($id);
+        $ids    = [$nodes['id']];
+
+        if (array_key_exists('children', $nodes))
+        {
+            foreach ($nodes['children'] as $child)
+            {
+                $child_ids = $this->branch($child['id']);
+                $ids = array_merge($ids, $child_ids);
+            }
+        }
+
+        return $ids;
+    }
 }
