@@ -1,7 +1,6 @@
 <?php
 
 use RubyRainbows\Cache\Providers\Redis\Objects\Tree as Tree;
-use RubyRainbows\Cache\Providers\Redis\Objects\Tree\Node as Node;
 use RubyRainbows\Cache\Providers\Redis\Client as Client;
 
 class TreeTest extends TestCase
@@ -36,7 +35,7 @@ class TreeTest extends TestCase
     {
         $tree = new Tree('key');
         $root = $tree->makeRootNode('0', ['foo' => 'bar']);
-        $root->addChild('1', 'children', ["foo" => "bar2"]);
+        $root->addChild('1', ["foo" => "bar2"]);
 
         $expect = [
             "id"        => '0',
@@ -56,9 +55,9 @@ class TreeTest extends TestCase
     {
         $tree   = new Tree('key');
         $root   = $tree->makeRootNode('0', ['foo' => 'bar']);
-        $child  = $root->addChild('1', "children", ["foo" => "bar2"]);
+        $child  = $root->addChild('1', ["foo" => "bar2"]);
 
-        $child->addChild('2', 'children', ['foo' => 'bar3']);
+        $child->addChild('2', ['foo' => 'bar3']);
 
         $expect = [
             'id'        => '0',
@@ -84,9 +83,9 @@ class TreeTest extends TestCase
     {
         $tree   = new Tree('key');
         $root   = $tree->makeRootNode('0', ['foo' => 'bar']);
-        $child  = $root->addChild('1', "children", ["foo" => "bar2"]);
+        $child  = $root->addChild('1', ["foo" => "bar2"]);
 
-        $child->addChild('2', 'children', ['foo' => 'bar3']);
+        $child->addChild('2', ['foo' => 'bar3']);
 
         $expect = [
             'id'        => '1',
@@ -106,9 +105,9 @@ class TreeTest extends TestCase
     {
         $tree   = new Tree('tree');
         $root   = $tree->makeRootNode('0', ['foo' => 'bar']);
-        $child  = $root->addChild('1', "children", ["foo" => "bar2"]);
+        $child  = $root->addChild('1', ["foo" => "bar2"]);
 
-        $child->addChild('2', "children", ['foo' => 'bar3']);
+        $child->addChild('2', ['foo' => 'bar3']);
         $tree->save();
 
         $array = [

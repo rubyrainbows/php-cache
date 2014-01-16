@@ -9,9 +9,8 @@ class Node
     private $data       = null;
     private $id         = null;
     private $tree       = null;
-    private $children   = [];
     private $address    = [];
-
+    private $children   = [];
 
     /**
      * Constructs the node
@@ -38,12 +37,9 @@ class Node
     {
         $data = $this->data;
 
-        foreach ($this->children as $key => $value)
+        foreach ($this->children as $child)
         {
-            foreach ($this->children[$key] as $child)
-            {
-                $data[$key][] = $child->getData();
-            }
+            $data['children'][] = $child->getData();
         }
 
         return $data;
@@ -63,12 +59,12 @@ class Node
     /**
      * Adds a child to the node
      */
-    public function addChild($id, $type, $data=[])
+    public function addChild($id, $data=[])
     {
         $child      = new Node($id, $this->tree, $data);
         $address    = $this->address;
-        $address[]                  = (array_key_exists($type, $this->children)) ? count($this->children[$type]) : 0;
-        $this->children[$type][]    = $child;
+        $address[]  = count($this->children);
+        $this->children[]    = $child;
 
         $child->setAddress($address);
 

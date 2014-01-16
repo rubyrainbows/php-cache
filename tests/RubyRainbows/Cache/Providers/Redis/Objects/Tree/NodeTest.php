@@ -20,17 +20,17 @@ class NodeTest extends TestCase
     public function testAddChild()
     {
         $node = new Node("id");
-        $node->addChild("id", 'child', ['foo' => 'bar']);
-        $this->assertEquals(["id" => "id", 'child' => [["id" => "id", 'foo' => 'bar']]], $node->getData());
+        $node->addChild("id", ['foo' => 'bar']);
+        $this->assertEquals(["id" => "id", 'children' => [["id" => "id", 'foo' => 'bar']]], $node->getData());
     }
 
     public function testNodeAddress()
     {
         $node = new Node("1");
         $this->assertEquals([0], $node->getAddress());
-        $child1 = $node->addChild("2", 'child');
+        $child1 = $node->addChild("2");
         $this->assertEquals([0,0], $child1->getAddress());
-        $child2 = $node->addChild("3", 'child');
+        $child2 = $node->addChild("3");
         $this->assertEquals([0,1], $child2->getAddress());
     }
 
