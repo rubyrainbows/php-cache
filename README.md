@@ -8,27 +8,27 @@ PHP Cache is a simple caching library for HTML and objects.
 
 Add the following to your composer.json
 
-    ```json
-    {
-        "repositories": [
-            {
-                "type": "package",
-                "package": {
-                    "name": "RubyRainbows/cache",
-                    "version": "master",
-                    "source": {
-                        "url": "https://github.com/rubyrainbows/php-cache.git",
-                        "type": "git",
-                        "reference": "master"
-                    }
+```json
+{
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "RubyRainbows/cache",
+                "version": "master",
+                "source": {
+                    "url": "https://github.com/rubyrainbows/php-cache.git",
+                    "type": "git",
+                    "reference": "master"
                 }
             }
-        ],
-        "require": {
-            "RubyRainbows/cache": "master"
         }
+    ],
+    "require": {
+        "RubyRainbows/cache": "master"
     }
-    ```
+}
+```
 
 ## Using
 
@@ -38,17 +38,17 @@ Add the following to your composer.json
 
 Here is an example of a redis cache setup
 
-    ```php
-    <?php
+```php
+<?php
 
-    using RubyRainbows\Cache\Cache as Cache;
+using RubyRainbows\Cache\Cache as Cache;
 
-    Cache::setup(
-        Cache::REDIS_CACHE,
-        [
-            'scheme'    => 'tcp',
-            'host'      => 'localhost',
-            'database'  => 0
-        ]
-    );
-    ```
+Cache::setup(
+    Cache::REDIS_CACHE,
+    [
+        'scheme'    => 'tcp',
+        'host'      => 'localhost',
+        'database'  => 0
+    ]
+);
+```
