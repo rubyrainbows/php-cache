@@ -22,10 +22,11 @@ class Node
      */
     public function __construct($id, Tree $tree=null, $data=[])
     {
-        $this->data     = $data;
-        $this->address  = [0];
-        $this->id       = $id;
-        $this->tree     = $tree;
+        $this->data         = $data;
+        $this->data['id']   = $id;
+        $this->address      = [0];
+        $this->id           = $id;
+        $this->tree         = $tree;
     }
 
     /**
