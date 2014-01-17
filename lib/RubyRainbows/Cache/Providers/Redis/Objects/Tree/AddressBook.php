@@ -1,8 +1,26 @@
 <?php
+
+/**
+ * AddressBook.php
+ *
+ * @author      Thomas Muntaner
+ * @copyright   2014 Thomas Muntaner
+ * @version     1.0.0
+ *
+ */
+
 namespace RubyRainbows\Cache\Providers\Redis\Objects\Tree;
 
 use RubyRainbows\Cache\Providers\Redis\Client as Client;
 
+/**
+ * Class AddressBook
+ *
+ * Stores the address of a trees node for quick access.
+ *
+ * @package RubyRainbows\Cache\Providers\Redis\Objects\Tree
+ *
+ */
 class AddressBook
 {
     /**

@@ -1,11 +1,28 @@
 <?php
 
+/**
+ * Cache.php
+ *
+ * @author      Thomas Muntaner
+ * @copyright   2014 Thomas Muntaner
+ * @version     1.0.0
+ *
+ */
+
 namespace RubyRainbows\Cache;
 
 use RubyRainbows\Cache\Providers\Redis\Client as RedisClient;
 use RubyRainbows\Cache\Providers\Redis\Objects\Object as RedisObject;
 use RubyRainbows\Cache\Providers\Redis\Objects\Tree as RedisTree;
 
+/**
+ * Class Cache
+ *
+ * Interacts with cache providers to create various cached objects.
+ *
+ * @package RubyRainbows\Cache
+ *
+ */
 class Cache
 {
     const REDIS_CACHE = 1;

@@ -1,9 +1,26 @@
 <?php
 
+/**
+ * Client.php
+ *
+ * @author      Thomas Muntaner
+ * @copyright   2014 Thomas Muntaner
+ * @version     1.0.0
+ *
+ */
+
 namespace RubyRainbows\Cache\Providers\Redis;
 
 use Predis\Client as RedisClient;
 
+/**
+ * Class Client
+ *
+ * Redis client
+ *
+ * @package RubyRainbows\Cache\Providers\Redis
+ *
+ */
 class Client
 {
     private static $redis   = null;
@@ -13,6 +30,7 @@ class Client
      * Configures the Redis Client
      *
      * @param array $config
+     *
      */
     public static function setup($config=[])
     {
@@ -27,6 +45,7 @@ class Client
      * Gets the value from the redis store
      *
      * @param $key
+     *
      */
     public static function get($key)
     {
@@ -42,6 +61,7 @@ class Client
      * @param $field
      *
      * @return mixed
+     *
      */
     public static function hget($key, $field)
     {
@@ -58,6 +78,7 @@ class Client
      * @param $value
      *
      * @return mixed
+     *
      */
     public static function hset($key, $field, $value)
     {
@@ -72,6 +93,7 @@ class Client
      * @param $key
      *
      * @return mixed
+     *
      */
     public static function hgetall($key)
     {
@@ -87,6 +109,7 @@ class Client
      * @param $field
      *
      * @return mixed
+     *
      */
     public static function hdel($key, $field)
     {
@@ -100,6 +123,7 @@ class Client
      *
      * @param $key
      * @param $value
+     *
      */
     public static function set($key, $value)
     {
@@ -123,6 +147,7 @@ class Client
      * Connects to the redis client
      *
      * @return null|RedisClient
+     *
      */
     private static function connect()
     {

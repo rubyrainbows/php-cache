@@ -1,9 +1,26 @@
 <?php
 
+/**
+ * Node.php
+ *
+ * @author      Thomas Muntaner
+ * @copyright   2014 Thomas Muntaner
+ * @version     1.0.0
+ *
+ */
+
 namespace RubyRainbows\Cache\Providers\Redis\Objects\Tree;
 
 use RubyRainbows\Cache\Providers\Redis\Objects\Tree as Tree;
 
+/**
+ * Class Node
+ *
+ * Node from a tree for storing hierarchical data.
+ *
+ * @package RubyRainbows\Cache\Providers\Redis\Objects\Tree
+ *
+ */
 class Node
 {
     private $id         = null;
@@ -18,6 +35,7 @@ class Node
      * @param $id
      * @param Tree $tree
      * @param array $data
+     *
      */
     public function __construct($id, Tree $tree=null, $data=[])
     {
@@ -34,6 +52,7 @@ class Node
      * Gets the node data
      *
      * @return array|null
+     *
      */
     public function getData()
     {
@@ -52,6 +71,7 @@ class Node
      *
      * @param $field
      * @param $value
+     *
      */
     public function __set($field, $value)
     {
@@ -64,6 +84,7 @@ class Node
      * @param $field
      *
      * @return mixed
+     *
      */
     public function __get($field)
     {
@@ -72,6 +93,7 @@ class Node
 
     /**
      * Adds a child to the node
+     *
      */
     public function addChild($id, $data=[])
     {
@@ -89,6 +111,7 @@ class Node
      * Sets a node address
      *
      * @param $address
+     *
      */
     public function setAddress($address)
     {
@@ -104,12 +127,18 @@ class Node
      * Gets a node's address
      *
      * @return array
+     *
      */
     public function getAddress()
     {
         return $this->address;
     }
 
+    /**
+     * Gets the children of the node
+     *
+     * @return array
+     */
     public function getChildren()
     {
         return $this->children;
@@ -117,6 +146,7 @@ class Node
 
     /**
      * Resumes a node
+     *
      */
     private function resume()
     {

@@ -1,11 +1,28 @@
 <?php
 
+/**
+ * Tree.php
+ *
+ * @author      Thomas Muntaner
+ * @copyright   2014 Thomas Muntaner
+ * @version     1.0.0
+ *
+ */
+
 namespace RubyRainbows\Cache\Providers\Redis\Objects;
 
 use RubyRainbows\Cache\Providers\Redis\Objects\Tree\AddressBook;
 use RubyRainbows\Cache\Providers\Redis\Objects\Tree\Node as Node;
 use RubyRainbows\Cache\Providers\Redis\Client as RedisClient;
 
+/**
+ * Class Tree
+ *
+ * A tree object whose data is stored in redis.
+ *
+ * @package RubyRainbows\Cache\Providers\Redis\Objects
+ *
+ */
 class Tree
 {
     private $key     = "";
@@ -16,6 +33,7 @@ class Tree
      * Constructs the tree
      *
      * @param $key
+     *
      */
     public function __construct($key)
     {
@@ -26,6 +44,7 @@ class Tree
 
     /**
      * Saves the tree in the cache
+     *
      */
     public function save()
     {
@@ -42,6 +61,7 @@ class Tree
      *
      * @param $id
      * @param $address
+     *
      */
     public function cacheNodeAddress($id, $address)
     {
@@ -55,6 +75,7 @@ class Tree
      * @param array $data
      *
      * @return Node
+     *
      */
     public function makeRootNode($id,$data=[])
     {
@@ -70,6 +91,7 @@ class Tree
      * @param null $id
      *
      * @return array|mixed|null
+     *
      */
     public function getData($id=null)
     {
@@ -83,6 +105,7 @@ class Tree
      * @param $address
      *
      * @return array|mixed|null
+     *
      */
     private function getNodeBranch($address)
     {
@@ -100,6 +123,7 @@ class Tree
      * Gets the cached data
      *
      * @return array|mixed|null
+     *
      */
     private function getCachedData()
     {
@@ -124,6 +148,7 @@ class Tree
      * Returns the address book key
      *
      * @return string
+     *
      */
     private function addressBookKey()
     {
@@ -132,6 +157,7 @@ class Tree
 
     /**
      * Resumes a tree
+     *
      */
     private function resume()
     {
@@ -149,6 +175,7 @@ class Tree
      * @param $id
      *
      * @return array
+     *
      */
     public function branch($id)
     {

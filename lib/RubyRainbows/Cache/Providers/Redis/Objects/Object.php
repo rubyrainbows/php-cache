@@ -1,10 +1,27 @@
 <?php
 
+/**
+ * Object.php
+ *
+ * @author      Thomas Muntaner
+ * @copyright   2014 Thomas Muntaner
+ * @version     1.0.0
+ *
+ */
+
 namespace RubyRainbows\Cache\Providers\Redis\Objects;
 
 use RubyRainbows\Cache\Providers\Redis\Client as Client;
 use RubyRainbows\Cache\Objects;
 
+/**
+ * Class Object
+ *
+ * An object that interacts whose data is stored in redis
+ *
+ * @package RubyRainbows\Cache\Providers\Redis\Objects
+ *
+ */
 class Object implements Objects\CachedObject
 {
     private static $key     = "";
@@ -15,8 +32,9 @@ class Object implements Objects\CachedObject
      *
      * @param $key
      * @param array $data
+     *
      */
-    public function __construct($key, $data=[])
+    public function __construct($key, array $data=[])
     {
         self::$key = $key;
 
@@ -33,6 +51,9 @@ class Object implements Objects\CachedObject
      *
      * @param $field
      * @param $value
+     *
+     * @return mixed|void
+     *
      */
     public function __set($field, $value)
     {
@@ -47,6 +68,7 @@ class Object implements Objects\CachedObject
      * @param $field
      *
      * @return mixed
+     *
      */
     public function __get($field)
     {
@@ -57,6 +79,7 @@ class Object implements Objects\CachedObject
      * Gets all the data from the redis store
      *
      * @return mixed
+     *
      */
     public function getAll()
     {
@@ -65,6 +88,7 @@ class Object implements Objects\CachedObject
 
     /**
      * Deletes all the data from the redis store
+     *
      */
     public function delete($key, $refreshData=true)
     {
@@ -78,6 +102,7 @@ class Object implements Objects\CachedObject
 
     /**
      * Deletes all the data from the redis store for the object
+     *
      */
     public function deleteAll()
     {
