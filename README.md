@@ -97,7 +97,7 @@ using RubyRainbows\Cache\Objects\CachedObject as CachedObject;
 
 class NamespaceClass extends CachedObject
 {
-    protected $namespace = "namespace";
+    protected $namespace = 'foo';
 }
 ```
 
