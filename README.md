@@ -64,11 +64,13 @@ using RubyRainbows\Cache\Objects\CachedObject as CachedObject;
 
 class Extended extends CachedObject
 {
-    public function __construct($key, array $opts)
+    public function __construct($key, array $opts=[])
     {
         parent::__construct($key, $opts);
     }
 }
+
+$object = new Extended('foo');
 ```
 
 ### Variables
@@ -116,7 +118,14 @@ using RubyRainbows\Cache\Objects\CachedObject as CachedObject;
 class NamespaceClass extends CachedObject
 {
     protected $namespace = 'foo';
+
+    public function __construct($key, array $opts=[])
+    {
+        parent::__construct($key, $opts);
+    }
 }
+
+$object = new NamespaceClass('cache_key');
 ```
 
 ## Using Trees
