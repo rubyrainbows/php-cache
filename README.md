@@ -45,12 +45,30 @@ Cache::setup(
 
 ### Creating an Object
 
+#### Method 1: Using CachedObject
+
 ```php
 <?php
 
 using RubyRainbows\Cache\Objects\CachedObject as CachedObject;
 
 $object = new CachedObject('cache_key');
+```
+
+#### Method 2: Extending CachedObject
+
+```php
+<?php
+
+using RubyRainbows\Cache\Objects\CachedObject as CachedObject;
+
+class Extended extends CachedObject
+{
+    public function __construct($key, array $opts)
+    {
+        parent::__construct($key, $opts);
+    }
+}
 ```
 
 ### Variables
