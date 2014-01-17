@@ -11,6 +11,7 @@
 
 namespace RubyRainbows\Cache\Providers\Redis\Objects;
 
+use RubyRainbows\Cache\Providers\Base\Objects\BaseTree;
 use RubyRainbows\Cache\Providers\Redis\Objects\Tree\AddressBook;
 use RubyRainbows\Cache\Providers\Redis\Objects\Tree\Node as Node;
 use RubyRainbows\Cache\Providers\Redis\Client as RedisClient;
@@ -23,7 +24,7 @@ use RubyRainbows\Cache\Providers\Redis\Client as RedisClient;
  * @package RubyRainbows\Cache\Providers\Redis\Objects
  *
  */
-class Tree
+class Tree implements BaseTree
 {
     private $key     = "";
     private $root    = null;
@@ -62,6 +63,8 @@ class Tree
      * @param $id
      * @param $address
      *
+     * @return mixed|void
+     *
      */
     public function cacheNodeAddress($id, $address)
     {
@@ -98,6 +101,31 @@ class Tree
         $address = ($id == null) ? $this->root->getAddress() : AddressBook::get($this->addressBookKey(), $id);
 
         return $this->getNodeBranch($address);
+    }
+
+    /**
+     * Returns an array of ids from the nodes in the branch
+     *
+     * @param $id
+     *
+     * @return array
+     *
+     */
+    public function branch($id)
+    {
+        $nodes  = $this->getData($id);
+        $ids    = [$nodes['id']];
+
+        if (array_key_exists('children', $nodes))
+        {
+            foreach ($nodes['children'] as $child)
+            {
+                $child_ids = $this->branch($child['id']);
+                $ids = array_merge($ids, $child_ids);
+            }
+        }
+
+        return $ids;
     }
 
     /**
@@ -167,30 +195,5 @@ class Tree
         {
             $this->root = new Node($cache[0]['id'], $this, $cache[0]);
         }
-    }
-
-    /**
-     * Returns an array of ids from the nodes in the branch
-     *
-     * @param $id
-     *
-     * @return array
-     *
-     */
-    public function branch($id)
-    {
-        $nodes  = $this->getData($id);
-        $ids    = [$nodes['id']];
-
-        if (array_key_exists('children', $nodes))
-        {
-            foreach ($nodes['children'] as $child)
-            {
-                $child_ids = $this->branch($child['id']);
-                $ids = array_merge($ids, $child_ids);
-            }
-        }
-
-        return $ids;
     }
 }

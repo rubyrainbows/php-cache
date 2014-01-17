@@ -28,6 +28,7 @@ class CachedObject
     private     $base       = null;
     protected   $namespace  = "";
     protected   $key        = "";
+
     /**
      * Constructs the Cached Object
      *

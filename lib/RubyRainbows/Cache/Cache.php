@@ -68,8 +68,6 @@ class Cache
      */
     public static function object($key, $type)
     {
-        $object = null;
-
         switch (self::$currentCache):
             case CacheProviders::REDIS:
                 switch ($type):
@@ -81,7 +79,7 @@ class Cache
                 break;
         endswitch;
 
-        return $object;
+        return null;
     }
 
 }
