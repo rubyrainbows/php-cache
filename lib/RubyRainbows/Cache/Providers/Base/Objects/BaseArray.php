@@ -1,7 +1,7 @@
 <?php
 
 /**
- * CachedArray.php
+ * BaseArray.php
  *
  * @author      Thomas Muntaner
  * @copyright   2014 Thomas Muntaner
@@ -9,14 +9,15 @@
  *
  */
 
-namespace RubyRainbows\Cache\Objects;
+namespace RubyRainbows\Cache\Providers\Base\Objects;
 
 /**
  * Interface CachedArray
  *
  * An array that interacts directly with the cache's store
  *
- * @package RubyRainbows\Cache\Objects
+ * @package RubyRainbows\Cache\Providers\Base\Objects
+ *
  */
 interface CachedArray {
 

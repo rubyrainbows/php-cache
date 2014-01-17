@@ -22,9 +22,7 @@ Add the following to your composer.json
 }
 ```
 
-## Using
-
-### Setup
+## Setup
 
 **Notice:** *Currently, only a redis cache is supported.*
 
@@ -43,40 +41,67 @@ Cache::setup(
 );
 ```
 
-### Cached Objects
+## Using Cached Objects
+
+### Creating an Object
 
 ```php
 <?php
 
-using RubyRainbows\Cache;
+using RubyRainbows\Cache\Objects\CachedObject as CachedObject;
 
-# cache setup
-
-# make a cached object with no data
-$object = Cache::object('cache_key');
-
-# make a cached object with data
-$object = Cache::object('cache_key', ['field' => 'value']);
-
-# getting a value from a cached object
-$field = $object->field;
-
-# setting a value to a field
-$object->random_field = "foo";
-
-# deleting a field from a cached object
-$object->delete('random_field');
-
-$deleting all fields from a cached object
-$object->deleteAll();
-
-# A cached object can be retrieved at any time with its id
-$object = Cache::object('cache_key', ['field' => 'value']);
-$field  = $object->field;
-$object = Cache::object('cache_key');
+$object = new CachedObject('cache_key');
 ```
 
-### Trees
+### Variables
+```php
+<?php
+
+using RubyRainbows\Cache\Objects\CachedObject as CachedObject;
+
+$object = new CachedObject('cache_key');
+
+# fill method
+$object->fill(['foo' => 'bar']);
+
+# set methods
+$object->foo = 'bar';
+$object->set('foo', 'bar');
+
+# get methods
+$foo = $object->foo;
+$foo = $object->get('foo');
+```
+
+### Namespaces
+
+To prevent overwriting of data with multiple objects, you can namespace your objects.  Namespacing will make your cache key
+`namespace:cache_key` instead of just `cache_key`.
+
+#### Method 1: Adding the Namespace to the Object During Creation
+
+```php
+<?php
+
+using RubyRainbows\Cache\Objects\CachedObject as CachedObject;
+
+$object = new CachedObject('cache_key', ['namespace' => 'foo']);
+```
+
+#### Method 2: Adding the Namespace to a Class
+
+```php
+<?php
+
+using RubyRainbows\Cache\Objects\CachedObject as CachedObject;
+
+class NamespaceClass extends CachedObject
+{
+    protected $namespace = "namespace";
+}
+```
+
+## Using Trees
 
 ```php
 <?php

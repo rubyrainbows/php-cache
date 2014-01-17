@@ -12,7 +12,7 @@
 namespace RubyRainbows\Cache\Providers\Redis\Objects;
 
 use RubyRainbows\Cache\Providers\Redis\Client as Client;
-use RubyRainbows\Cache\Objects;
+use RubyRainbows\Cache\Providers\Base;
 
 /**
  * Class Object
@@ -22,7 +22,7 @@ use RubyRainbows\Cache\Objects;
  * @package RubyRainbows\Cache\Providers\Redis\Objects
  *
  */
-class Object implements Objects\CachedObject
+class Object implements Base\Objects\BaseObject
 {
     private static $key     = "";
     private static $data    = [];
@@ -36,14 +36,10 @@ class Object implements Objects\CachedObject
      */
     public function __construct($key, array $data=[])
     {
-        self::$key = $key;
-
-        foreach ($data as $data_key => $value)
-        {
-            Client::hset(self::$key, $data_key, $value);
-        }
-
+        self::$key  = $key;
         self::$data = $this->getAll();
+
+        $this->fill($data);
     }
 
     /**
@@ -57,11 +53,38 @@ class Object implements Objects\CachedObject
      */
     public function __set($field, $value)
     {
+        $this->set($field, $value);
+    }
+
+    /**
+     * Sets a field for the object
+     *
+     * @param $field
+     * @param $value
+     *
+     * @return mixed|void
+     */
+    public function set($field, $value)
+    {
         Client::hset(self::$key, $field, $value);
 
         self::$data = $this->getAll();
     }
 
+    /**
+     * Fills in fields for the object
+     *
+     * @param array $data
+     */
+    public function fill (array $data)
+    {
+        foreach ($data as $key => $value)
+        {
+            $this->set($key, $value);
+        }
+
+        self::$data = $this->getAll();
+    }
     /**
      * Gets the data from the redis store for the object
      *
@@ -71,6 +94,18 @@ class Object implements Objects\CachedObject
      *
      */
     public function __get($field)
+    {
+        return $this->get($field);
+    }
+
+    /**
+     * Gets a variable from the redis cache for the object
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    public function get($field)
     {
         return Client::hget(self::$key, $field);
     }

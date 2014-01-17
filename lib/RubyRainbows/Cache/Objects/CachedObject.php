@@ -6,69 +6,123 @@
  * @author      Thomas Muntaner
  * @copyright   2014 Thomas Muntaner
  * @version     1.0.0
- *
+ * 
  */
 
 namespace RubyRainbows\Cache\Objects;
 
+use RubyRainbows\Cache\Cache;
+use RubyRainbows\Cache\Providers\Base\Objects\BaseObject as BaseObject;
+use RubyRainbows\Cache\ObjectType;
+
 /**
- * Interface CachedObject
+ * Class CachedObject
  *
- * An object that interacts directly with the cache's store.
+ * A cached object that interacts with a set cache store to save data.
  *
  * @package RubyRainbows\Cache\Objects
+ *
  */
-interface CachedObject
+class CachedObject
 {
+    private     $base       = null;
+    protected   $namespace  = "";
+    protected   $key        = "";
     /**
-     * Creates a cached object
+     * Constructs the Cached Object
      *
-     * @param $key
-     *
-     * @param array $data
+     * @param       $key
+     * @param array $opts
      */
-    public function __construct($key, array $data=[]);
+    public function __construct ($key, array $opts=[])
+    {
+        $this->namespace    = (array_key_exists('namespace', $opts))    ? $opts['namespace']            : $this->namespace;
+        $this->key          = ($this->namespace != "")                  ? $this->namespace . ':' . $key : $key;
+        $this->base         = (array_key_exists('base', $opts))         ? $opts['base']                 : Cache::object($this->key, ObjectType::OBJECT);
+    }
 
     /**
-     * Sets a field's value for the object
+     * Gets a field from the object
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    public function get($field)
+    {
+        return $this->base->get($field);
+    }
+
+    /**
+     * Gets a field from the object
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    public function __get ($field)
+    {
+        return $this->get($field);
+    }
+
+    /**
+     * Set a field for the object
      *
      * @param $field
      * @param $value
-     *
-     * @return mixed
      */
-    public function __set($field, $value);
+    public function set ($field, $value)
+    {
+        $this->base->set($field, $value);
+    }
 
     /**
-     * Gets a field's value for the object
+     * Sets a field for the object
      *
      * @param $field
+     * @param $value
+     */
+    public function __set ($field, $value)
+    {
+        $this->set($field, $value);
+    }
+
+    /**
+     * Fills a object with data
+     *
+     * @param array $data
+     */
+    public function fill (array $data)
+    {
+        $this->base->fill($data);
+    }
+
+    /**
+     * Gets all the fields for the object
      *
      * @return mixed
      */
-    public function __get($field);
+    public function getAll ()
+    {
+        return $this->base->getAll();
+    }
 
     /**
-     * Gets all the values for the object
-     *
-     * @return mixed
-     */
-    public function getAll();
-
-    /**
-     * Deletes a field from the object
+     * Deletes a single field from the object
      *
      * @param $key
-     * @param bool $refreshData
-     *
-     * @return mixed
      */
-    public function delete($key, $refreshData=true);
+    public function delete($key)
+    {
+        $this->base->delete($key, true);
+    }
 
     /**
-     * Delete's all the fields from the object
+     * Deletes all the fields from the object
      *
-     * @return mixed
      */
-    public function deleteAll();
-}
+    public function deleteAll()
+    {
+        $this->base->deleteAll();
+    }
+} 

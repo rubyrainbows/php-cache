@@ -25,9 +25,7 @@ use RubyRainbows\Cache\Providers\Redis\Objects\Tree as RedisTree;
  */
 class Cache
 {
-    const REDIS_CACHE = 1;
-
-    private static $currentCache = Cache::REDIS_CACHE;
+    private static $currentCache = CacheProviders::REDIS;
 
     /**
      * Sets up the cache
@@ -39,9 +37,9 @@ class Cache
     {
         switch ($type):
 
-            case self::REDIS_CACHE:
+            case CacheProviders::REDIS:
                RedisClient::setup($cache_config);
-               self::$currentCache = self::REDIS_CACHE;
+               self::$currentCache = CacheProviders::REDIS;
                break;
 
             default:
@@ -63,41 +61,27 @@ class Cache
     /**
      * Creates a cached object
      *
-     * @param $key
-     * @param array $data
+     * @param   $key
+     * @param   $type
      *
      * @return null|RedisObject
      */
-    public static function object($key, array $data=[])
+    public static function object($key, $type)
     {
         $object = null;
 
         switch (self::$currentCache):
-            case self::REDIS_CACHE:
-                $object = new RedisObject($key, $data);
+            case CacheProviders::REDIS:
+                switch ($type):
+                    case ObjectType::OBJECT:
+                        return new RedisObject($key);
+                    case ObjectType::TREE:
+                        return new RedisTree($key);
+                endswitch;
                 break;
         endswitch;
 
         return $object;
     }
 
-    /**
-     * Creates a cached tree
-     *
-     * @param $key
-     *
-     * @return null|RedisTree
-     */
-    public static function tree($key)
-    {
-        $tree = null;
-
-        switch (self::$currentCache):
-            case self::REDIS_CACHE:
-                $tree = new RedisTree($key);
-                break;
-        endswitch;
-
-        return $tree;
-    }
 }
