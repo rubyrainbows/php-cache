@@ -88,7 +88,7 @@ using RubyRainbows\Cache\Objects\CachedObject as CachedObject;
 $object = new CachedObject('cache_key', ['namespace' => 'foo']);
 ```
 
-#### Method 2: Adding the Namespace to a Class
+#### Method 2: Adding the Namespace to a Class Extending CachedObject
 
 ```php
 <?php

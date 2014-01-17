@@ -6,20 +6,9 @@ class CacheTest extends TestCase
 {
     public function testCacheSetup()
     {
-        Cache::setup(Cache::REDIS_CACHE);
+        Cache::setup(\RubyRainbows\Cache\CacheProviders::REDIS);
 
-        $this->assertEquals(Cache::REDIS_CACHE, Cache::currentCache());
+        $this->assertEquals(\RubyRainbows\Cache\CacheProviders::REDIS, Cache::currentCache());
     }
 
-    public function testObjectFunction()
-    {
-        $object = Cache::object('key', ['foo', 'bar']);
-        $this->assertNotNull($object);
-    }
-
-    public function testTreeFunction()
-    {
-        $tree = Cache::tree('key');
-        $this->assertNotNull($tree);
-    }
 }
