@@ -130,47 +130,111 @@ $object = new NamespaceClass('cache_key');
 
 ## Using Trees
 
+### Creating a Tree
+
 ```php
 <?php
 
-using RubyRainbows\Cache;
+using RubyRainbows\Cache\Objects\CachedTree as Tree;
 
-# cache setup
+$tree = new Tree('cached_key');
+```
 
-# making a tree
-$tree = Cache::tree('key');
+### Making a Root Node
 
-# creating a root node
-#
-# This function makeRootNode($id,$data) takes the param of id so that the node can be easily accessed in the future
+```php
+<?php
+
+using RubyRainbows\Cache\Objects\CachedTree as Tree;
+
+$tree = new Tree('cached_key');
+
 $root = $tree->makeRootNode(1);
 
-# you can also pass field data to the root as well
-$root = $tree->makeRootNode(1, ['field' => 'foo']);
+# You can also pass data to the root node during creation
+$root = $tree->makeRootNode(1, ['foo' => 'bar']);
+```
 
-# The root node can add child nodes to itself
-#
-# This function addChild($id,$data) takes the param of id so that the node can be easily accessed in the future
-$root->addChild(2);
+### Passing Data to a node
 
-# As with the root node, you can also add field data to the node in the addChild() function
-$root->addChild(2, ['foo' => 'bar']);
+```php
+<?php
 
-# Saving a tree to the cache
+using RubyRainbows\Cache\Objects\CachedTree as Tree;
+
+$tree = new Tree('cached_key');
+
+$root = $tree->makeRootNode(1);
+
+$root->foo = 'bar';
+```
+
+### Adding a Child to the Root Node
+
+```php
+<?php
+
+using RubyRainbows\Cache\Objects\CachedTree as Tree;
+
+$tree = new Tree('cached_key');
+
+$root = $tree->makeRootNode(1);
+
+# Make the new node with its id as its argument
+$node = $root->addChild(2)
+
+# You can also pass data to the node during creation
+$node = $root->addChild(2, ['foo' => 'bar']);
+```
+
+### Saving the Tree
+
+```php
+<?php
+
+using RubyRainbows\Cache\Objects\CachedTree as Tree;
+
+$tree = new Tree('cached_key');
+$root = $tree->makeRootNode(1);
+$node = $root->addChild(2)
+
+$tree->save();
+```
+
+### Getting the Data from the Tree
+
+```php
+<?php
+
+using RubyRainbows\Cache\Objects\CachedTree as Tree;
+
+$tree = new Tree('cached_key');
+$root = $tree->makeRootNode(1);
+$node = $root->addChild(2)
+
 $tree->save();
 
-# Getting the data array from the cache (staring from root node)
+# Starting from the root node
 $tree->getData();
 
-# You can also get the data array starting from any node by supplying its id to the getData() function
+# Starting from a set node (by ID)
 $tree->getData(1);
+```
 
-# A tree that has been saved can also be retrieved at a later point with the tree's key
-$tree = Cache::tree('tree');
+### Retrieving a Tree
 
+A tree that has been saved can also be retrieved at a later point with the tree'S cache key
+
+```php
+<?php
+
+using RubyRainbows\Cache\Objects\CachedTree as Tree;
+
+$tree = new Tree('cached_key');
 $root = $tree->makeRootNode(1);
-$root->addChild(2, ['foo' => 'bar']);
+$node = $root->addChild(2)
+
 $tree->save();
 
-$tree = Cache::tree('tree');
+$tree = new Tree('cached_key');
 ```
