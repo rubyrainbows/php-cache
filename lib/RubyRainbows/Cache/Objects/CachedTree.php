@@ -76,7 +76,7 @@ class CachedTree
      */
     public function makeRootNode($id, $data=[])
     {
-        $this->base->makeRootNode($id, $data);
+        return $this->base->makeRootNode($id, $data);
     }
 
     /**
@@ -89,7 +89,7 @@ class CachedTree
      */
     public function getData($id=null)
     {
-        $this->base->getData($id);
+        return $this->base->getData($id);
     }
 
     /**
@@ -102,6 +102,6 @@ class CachedTree
      */
     public function branch($id)
     {
-        $this->base->branch($id);
+        return $this->base->branch($id);
     }
 } 
