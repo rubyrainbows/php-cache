@@ -3,8 +3,39 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "d7356b124fd3bd8c01eef786dd9f3f22",
+    "hash": "10557068df31301db14c8d6f369c94a1",
     "packages": [
+        {
+            "name": "myclabs/php-enum",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/myclabs/php-enum.git",
+                "reference": "27e3b22bb4c9d9cdf4d643b77e6b7ea903af9ba9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/27e3b22bb4c9d9cdf4d643b77e6b7ea903af9ba9",
+                "reference": "27e3b22bb4c9d9cdf4d643b77e6b7ea903af9ba9",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "MyCLabs\\Enum\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHP Enum implementation",
+            "homepage": "http://github.com/myclabs/php-enum",
+            "keywords": [
+                "enum"
+            ],
+            "time": "2014-01-08 20:49:27"
+        },
         {
             "name": "predis/predis",
             "version": "v0.8.4",
@@ -60,12 +91,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "e7ac8f05f9e954d4387732e58d9be43b102fbe93"
+                "reference": "0163f082dee93c895497571afd458a04c48b0b7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/e7ac8f05f9e954d4387732e58d9be43b102fbe93",
-                "reference": "e7ac8f05f9e954d4387732e58d9be43b102fbe93",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/0163f082dee93c895497571afd458a04c48b0b7a",
+                "reference": "0163f082dee93c895497571afd458a04c48b0b7a",
                 "shasum": ""
             },
             "require": {
@@ -73,7 +104,8 @@
                 "php": ">=5.3.2"
             },
             "require-dev": {
-                "hamcrest/hamcrest-php": "~1.1"
+                "hamcrest/hamcrest-php": "~1.1",
+                "satooshi/php-coveralls": "dev-master"
             },
             "type": "library",
             "extra": {
@@ -116,38 +148,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2014-01-17 11:55:29"
-        },
-        {
-            "name": "myclabs/php-enum",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/myclabs/php-enum.git",
-                "reference": "27e3b22bb4c9d9cdf4d643b77e6b7ea903af9ba9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/27e3b22bb4c9d9cdf4d643b77e6b7ea903af9ba9",
-                "reference": "27e3b22bb4c9d9cdf4d643b77e6b7ea903af9ba9",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "MyCLabs\\Enum\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "PHP Enum implementation",
-            "homepage": "http://github.com/myclabs/php-enum",
-            "keywords": [
-                "enum"
-            ],
-            "time": "2014-01-08 20:49:27"
+            "time": "2014-01-19 20:55:32"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -155,12 +156,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "f0423269706a289eb041698565ba0603b830945e"
+                "reference": "ce9ec3b5ef9cc4d4d83d5d1bd93f3e8dfb19879e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/f0423269706a289eb041698565ba0603b830945e",
-                "reference": "f0423269706a289eb041698565ba0603b830945e",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/ce9ec3b5ef9cc4d4d83d5d1bd93f3e8dfb19879e",
+                "reference": "ce9ec3b5ef9cc4d4d83d5d1bd93f3e8dfb19879e",
                 "shasum": ""
             },
             "require": {
@@ -210,7 +211,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-01-15 12:07:15"
+            "time": "2014-01-18 05:55:23"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -401,12 +402,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "1cbd7c4f445065d8e9f88e61875adcc5cb1cdb3f"
+                "reference": "be22ec8a2cfa3739f91b6a7c62c7426791d1aea1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1cbd7c4f445065d8e9f88e61875adcc5cb1cdb3f",
-                "reference": "1cbd7c4f445065d8e9f88e61875adcc5cb1cdb3f",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/be22ec8a2cfa3739f91b6a7c62c7426791d1aea1",
+                "reference": "be22ec8a2cfa3739f91b6a7c62c7426791d1aea1",
                 "shasum": ""
             },
             "require": {
@@ -425,9 +426,6 @@
                 "sebastian/version": ">=1.0.0",
                 "symfony/yaml": "~2.0"
             },
-            "require-dev": {
-                "pear-pear/pear": "1.9.4"
-            },
             "suggest": {
                 "ext-json": "*",
                 "ext-simplexml": "*",
@@ -435,7 +433,7 @@
                 "phpunit/php-invoker": ">=1.1.0"
             },
             "bin": [
-                "composer/bin/phpunit"
+                "phpunit"
             ],
             "type": "library",
             "extra": {
@@ -470,7 +468,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-01-17 08:30:46"
+            "time": "2014-01-19 23:07:37"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -731,9 +729,9 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "myclabs/php-enum": 20,
         "phpunit/phpunit": 20,
-        "mockery/mockery": 20,
-        "myclabs/php-enum": 20
+        "mockery/mockery": 20
     },
     "platform": [
 
