@@ -29,7 +29,7 @@ Add the following to your composer.json
 ```php
 <?php
 
-using RubyRainbows\Cache;
+use RubyRainbows\Cache;
 
 Cache::setup(
     Cache::REDIS_CACHE,
