@@ -5,6 +5,7 @@
     "license": "MIT",
     "type": "library",
     "homepage": "https://github.com/rubyrainbows/php-cache",
+    "version": "1.0.0",
     "authors": [
         {
             "name": "Thomas Muntaner",
