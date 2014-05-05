@@ -10,14 +10,8 @@ Add the following to your composer.json
 
 ```json
 {
-    "repositories": [
-        {
-            "url": "https://github.com/rubyrainbows/php-cache.git",
-            "type": "vcs"
-        }
-    ],
     "require": {
-        "RubyRainbows/cache": "@dev"
+        "rubyrainbows/cache": "dev-master"
     }
 }
 ```
