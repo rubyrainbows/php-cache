@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "36a465040decaf02fac896036fb0dc6c",
+    "hash": "47afdc70f4de8e07fa19b6f317f0741f",
     "packages": [
         {
             "name": "myclabs/php-enum",
