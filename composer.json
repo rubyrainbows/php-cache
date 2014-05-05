@@ -3,6 +3,7 @@
     "description": "PHP Website Caching Library for HTML and Objects",
     "minimum-stability": "stable",
     "license": "MIT",
+    "type": "library",
     "homepage": "https://github.com/rubyrainbows/php-cache",
     "authors": [
         {
