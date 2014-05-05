@@ -10,11 +10,11 @@
     ],
     "require": {
         "predis/predis": "v0.8.4",
-        "myclabs/php-enum": "dev-master"
+        "myclabs/php-enum": "1.2.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.9.*@dev",
-        "mockery/mockery": "dev-master@dev"
+        "phpunit/phpunit": "4.0.20",
+        "mockery/mockery": "0.9.1"
     },
     "autoload": {
         "psr-0": {
