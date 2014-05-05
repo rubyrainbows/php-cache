@@ -30,9 +30,10 @@ Add the following to your composer.json
 <?php
 
 use RubyRainbows\Cache\Cache;
+use RubyRainbows\Cache\CacheProviders;
 
 Cache::setup(
-    Cache::REDIS_CACHE,
+    CacheProviders::REDIS,
     [
         'scheme'    => 'tcp',
         'host'      => 'localhost',
