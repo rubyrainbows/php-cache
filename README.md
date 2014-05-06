@@ -45,7 +45,7 @@ Cache::setup(
 ```php
 <?php
 
-using RubyRainbows\Cache\Objects\CachedObject as CachedObject;
+use RubyRainbows\Cache\Objects\CachedObject as CachedObject;
 
 $object = new CachedObject('cache_key');
 ```
@@ -55,7 +55,7 @@ $object = new CachedObject('cache_key');
 ```php
 <?php
 
-using RubyRainbows\Cache\Objects\CachedObject as CachedObject;
+use RubyRainbows\Cache\Objects\CachedObject as CachedObject;
 
 class Extended extends CachedObject
 {
@@ -72,7 +72,7 @@ $object = new Extended('foo');
 ```php
 <?php
 
-using RubyRainbows\Cache\Objects\CachedObject as CachedObject;
+use RubyRainbows\Cache\Objects\CachedObject as CachedObject;
 
 $object = new CachedObject('cache_key');
 
@@ -98,7 +98,7 @@ To prevent overwriting of data with multiple objects, you can namespace your obj
 ```php
 <?php
 
-using RubyRainbows\Cache\Objects\CachedObject as CachedObject;
+use RubyRainbows\Cache\Objects\CachedObject as CachedObject;
 
 $object = new CachedObject('cache_key', ['namespace' => 'foo']);
 ```
@@ -108,7 +108,7 @@ $object = new CachedObject('cache_key', ['namespace' => 'foo']);
 ```php
 <?php
 
-using RubyRainbows\Cache\Objects\CachedObject as CachedObject;
+use RubyRainbows\Cache\Objects\CachedObject as CachedObject;
 
 class NamespaceClass extends CachedObject
 {
@@ -130,7 +130,7 @@ $object = new NamespaceClass('cache_key');
 ```php
 <?php
 
-using RubyRainbows\Cache\Objects\CachedTree as Tree;
+use RubyRainbows\Cache\Objects\CachedTree as Tree;
 
 $tree = new Tree('cached_key');
 ```
@@ -140,7 +140,7 @@ $tree = new Tree('cached_key');
 ```php
 <?php
 
-using RubyRainbows\Cache\Objects\CachedTree as Tree;
+use RubyRainbows\Cache\Objects\CachedTree as Tree;
 
 $tree = new Tree('cached_key');
 
@@ -155,7 +155,7 @@ $root = $tree->makeRootNode(1, ['foo' => 'bar']);
 ```php
 <?php
 
-using RubyRainbows\Cache\Objects\CachedTree as Tree;
+use RubyRainbows\Cache\Objects\CachedTree as Tree;
 
 $tree = new Tree('cached_key');
 
@@ -169,7 +169,7 @@ $root->foo = 'bar';
 ```php
 <?php
 
-using RubyRainbows\Cache\Objects\CachedTree as Tree;
+use RubyRainbows\Cache\Objects\CachedTree as Tree;
 
 $tree = new Tree('cached_key');
 
@@ -187,7 +187,7 @@ $node = $root->addChild(2, ['foo' => 'bar']);
 ```php
 <?php
 
-using RubyRainbows\Cache\Objects\CachedTree as Tree;
+use RubyRainbows\Cache\Objects\CachedTree as Tree;
 
 $tree = new Tree('cached_key');
 $root = $tree->makeRootNode(1);
@@ -201,7 +201,7 @@ $tree->save();
 ```php
 <?php
 
-using RubyRainbows\Cache\Objects\CachedTree as Tree;
+use RubyRainbows\Cache\Objects\CachedTree as Tree;
 
 $tree = new Tree('cached_key');
 $root = $tree->makeRootNode(1);
@@ -223,7 +223,7 @@ A tree that has been saved can also be retrieved at a later point with the tree'
 ```php
 <?php
 
-using RubyRainbows\Cache\Objects\CachedTree as Tree;
+use RubyRainbows\Cache\Objects\CachedTree as Tree;
 
 $tree = new Tree('cached_key');
 $root = $tree->makeRootNode(1);
