@@ -38,7 +38,7 @@ class Client
         self::$config['host']       = (array_key_exists('host', $config))       ? $config['host']       : 'localhost';
         self::$config['database']   = (array_key_exists('database', $config))   ? $config['database']   : '0';
 
-        self::connect();
+        return self::connect();
     }
 
     /**
@@ -49,9 +49,7 @@ class Client
      */
     public static function get($key)
     {
-        $redis = self::connect();
-
-        return $redis->get($key);
+        return self::redisFunction( 'get', $key );
     }
 
     /**
@@ -65,9 +63,12 @@ class Client
      */
     public static function hget($key, $field)
     {
-        $redis = self::connect();
+        $return = self::redisFunction( 'hget', $key, $field );
 
-        return $redis->hget($key, $field);
+        if ( !$return )
+            return array();
+
+        return $return;
     }
 
     /**
@@ -82,9 +83,7 @@ class Client
      */
     public static function hset($key, $field, $value)
     {
-        $redis = self::connect();
-
-        return $redis->hset($key, $field, $value);
+        return self::redisFunction( 'hset', $key, $field, $value );
     }
 
     /**
@@ -97,9 +96,7 @@ class Client
      */
     public static function hgetall($key)
     {
-        $redis = self::connect();
-
-        return $redis->hgetall($key);
+        return self::redisFunction( 'hgetall', $key );
     }
 
     /**
@@ -113,9 +110,7 @@ class Client
      */
     public static function hdel($key, $field)
     {
-        $redis = self::connect();
-
-        return $redis->hdel($key, $field);
+        return self::redisFunction( 'hdel', $key, $field );
     }
 
     /**
@@ -127,9 +122,7 @@ class Client
      */
     public static function set($key, $value)
     {
-        $redis = self::connect();
-
-        $redis->set($key, $value);
+        return self::redisFunction( 'set', $key, $value );
     }
 
     /**
@@ -138,9 +131,7 @@ class Client
      */
     public static function clear()
     {
-        $redis = self::connect();
-
-        $redis->flushall();
+        return self::redisFunction( 'flushdb' );
     }
 
     /**
@@ -152,16 +143,43 @@ class Client
     private static function connect()
     {
         if ( self::$config == null )
-        {
             self::setup();
-        }
 
         if ( self::$redis == null )
         {
-            self::$redis = new RedisClient( self::$config );
+            try
+            {
+                self::$redis = new RedisClient( self::$config );
+            }
+            catch (Exception $e)
+            {
+                return false;
+            }
         }
 
         return self::$redis;
+    }
+
+    public static function redisFunction()
+    {
+        $redis      = self::connect();
+        $args       = func_get_args();
+        $function   = array_shift( $args );
+
+        if ( $redis )
+        {
+            try
+            {
+                return call_user_method_array( $function, $redis, $args );
+            }
+            catch ( Exception $e )
+            {
+                return false;
+            }
+            
+        }
+
+        return false;
     }
 
 }
