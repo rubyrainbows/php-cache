@@ -22,7 +22,7 @@ class CachedObjectTest extends PHPUnit_Framework_TestCase
         $base->shouldReceive('fill')->once();
         $base->shouldReceive('get')->once()->andReturn('bar');
 
-        $obj->fill(['foo' => 'bar']);
+        $obj->fill(['foo' => 'bar', 'bar' => array('bar'=> array('foo' => 'bar'))]);
         $this->assertEquals('bar', $obj->foo);
     }
 
