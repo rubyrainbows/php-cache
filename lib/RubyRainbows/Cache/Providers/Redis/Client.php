@@ -179,12 +179,12 @@ class Client
             }
             catch ( \Predis\ServerException $e )
             {
-                throw new Exceptions\CommandException( "Command '{$function}' with arguments " . join( $args, ", " ) . " failed!" );
+                throw new Exceptions\CommandException( $function, $args );
             }
         }
         else
         {
-            throw new Exceptions\ConnectionException( "Could not connect to redis!" );
+            throw new Exceptions\ConnectionException();
         }
 
         return false;
