@@ -170,7 +170,7 @@ class Client
         {
             try
             {
-                return call_user_method_array( $function, $redis, $args );
+                return call_user_func_array( array($redis, $function), $args );
             }
             catch ( Exception $e )
             {
