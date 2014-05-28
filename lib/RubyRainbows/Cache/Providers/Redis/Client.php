@@ -35,7 +35,7 @@ class Client
     public static function setup($config=[])
     {
         self::$config['scheme']     = (array_key_exists('scheme', $config))     ? $config['scheme']     : 'tcp';
-        self::$config['host']       = (array_key_exists('host', $config))       ? $config['host']       : 'localhost';
+        self::$config['host']       = (array_key_exists('host', $config))       ? $config['host']       : '127.0.0.1';
         self::$config['database']   = (array_key_exists('database', $config))   ? $config['database']   : '0';
 
         return self::connect();
@@ -143,16 +143,21 @@ class Client
     private static function connect()
     {
         if ( self::$config == null )
+        {
             self::setup();
+        }
 
         if ( self::$redis == null )
         {
+            self::$redis = new RedisClient( self::$config );
+
             try
             {
-                self::$redis = new RedisClient( self::$config );
+                self::$redis->connect();
             }
-            catch (Exception $e)
+            catch ( \Predis\Connection\ConnectionException $e )
             {
+                self::$redis = null;
                 return false;
             }
         }
@@ -172,11 +177,14 @@ class Client
             {
                 return call_user_func_array( array($redis, $function), $args );
             }
-            catch ( Exception $e )
+            catch ( \Predis\ServerException $e )
             {
-                return false;
+                throw new Exceptions\CommandException( "Command '{$function}' with arguments " . join( $args, ", " ) . " failed!" );
             }
-            
+        }
+        else
+        {
+            throw new Exceptions\ConnectionException( "Could not connect to redis!" );
         }
 
         return false;
