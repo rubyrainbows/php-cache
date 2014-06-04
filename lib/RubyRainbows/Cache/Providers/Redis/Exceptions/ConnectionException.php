@@ -8,7 +8,7 @@ class ConnectionException extends \Exception
     {
         if ( $message == "" )
         {
-            $message = "Could not connect to redis!"
+            $message = "Could not connect to redis!";
         }
         
         parent::__construct($message, $code, $previous);
