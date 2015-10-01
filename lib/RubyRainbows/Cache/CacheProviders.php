@@ -3,10 +3,8 @@
 /**
  * CacheProviders.php
  *
- * @author      Thomas Muntaner
- * @copyright   2014 Thomas Muntaner
+ * @author      Thomas Muntanerd
  * @version     1.0.0
- * 
  */
 
 namespace RubyRainbows\Cache;
@@ -24,4 +22,4 @@ use MyCLabs\Enum\Enum;
 class CacheProviders extends Enum
 {
     const REDIS = 1;
-} 
+}

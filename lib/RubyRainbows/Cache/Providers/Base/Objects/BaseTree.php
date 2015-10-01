@@ -4,9 +4,7 @@
  * BaseTree.php
  *
  * @author      Thomas Muntaner
- * @copyright   2014 Thomas Muntaner
  * @version     1.0.0
- * 
  */
 
 namespace RubyRainbows\Cache\Providers\Base\Objects;
@@ -17,24 +15,15 @@ namespace RubyRainbows\Cache\Providers\Base\Objects;
  * A tree that interacts directly with a cache store
  *
  * @package RubyRainbows\Cache\Providers\Base\Objects
- *
  */
 interface BaseTree
 {
     /**
-     * Constructs the tree
-     * @param $key
-     *
-     */
-    public function __construct ($key);
-
-    /**
      * Saves the tree
      *
      * @return mixed
-     *
      */
-    public function save();
+    public function save ();
 
     /**
      * Caches a node address
@@ -43,9 +32,8 @@ interface BaseTree
      * @param $address
      *
      * @return mixed
-     *
      */
-    public function cacheNodeAddress($id, $address);
+    public function cacheNodeAddress ( $id, $address );
 
     /**
      * Makes a root node
@@ -55,17 +43,25 @@ interface BaseTree
      *
      * @return mixed
      */
-    public function makeRootNode($id, $data=[]);
+    public function makeRootNode ( $id, $data = [] );
 
     /**
-     * Gets data from the tree based on tree id
+     * Returns an array of the tree's data from the
+     * specified id. If the id is null, the array starts
+     * at the root.
      *
-     * @param null $id
+     * @param string $id
      *
      * @return mixed
-     *
      */
-    public function getData($id=null);
+    public function toArray ( $id = null );
+
+    /**
+     * Returns whether or not the tree is empty
+     *
+     * @return boolean
+     */
+    public function isEmpty ();
 
     /**
      * Returns an array of the id of the node and its children
@@ -73,8 +69,6 @@ interface BaseTree
      * @param $id
      *
      * @return mixed
-     *
      */
-    public function branch($id);
-
-} 
+    public function branch ( $id );
+}

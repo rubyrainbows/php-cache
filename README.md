@@ -1,3 +1,5 @@
+[![Latest Stable Version](https://poser.pugx.org/rubyrainbows/cache/version.svg)](https://packagist.org/packages/rubyrainbows/cache)
+[![Total Downloads](https://poser.pugx.org/rubyrainbows/cache/downloads.svg)](https://packagist.org/packages/rubyrainbows/cache)
 [![Build Status](https://travis-ci.org/rubyrainbows/php-cache.png?branch=master)](https://travis-ci.org/rubyrainbows/php-cache)
 
 # PHP Cache
@@ -11,14 +13,14 @@ Add the following to your composer.json
 ```json
 {
     "require": {
-        "rubyrainbows/cache": "dev-master"
+        "rubyrainbows/cache": "~1.1.0"
     }
 }
 ```
 
 ## Setup
 
-**Notice:** *Currently, only a redis cache is supported.*
+**Notice:** *I built this library agnostic to different cache providers, however, since I mainly use redis, redis is the only supported cache.*
 
 ```php
 <?php
@@ -26,210 +28,93 @@ Add the following to your composer.json
 use RubyRainbows\Cache\Cache;
 use RubyRainbows\Cache\CacheProviders;
 
-Cache::setup(
-    CacheProviders::REDIS,
-    [
-        'scheme'    => 'tcp',
-        'host'      => 'localhost',
-        'database'  => 0
-    ]
-);
+// a redis cache at localhost and database of 0
+$cache = new Cache ();
+
+// a more specified cache
+$cache = new Cache( CacheProviders::REDIS, [
+    'scheme'    => 'tcp',
+    'host'      => 'localhost',
+    'database'  => 0
+]);
 ```
 
 ## Using Cached Objects
 
-### Creating an Object
-
-#### Method 1: Using CachedObject
-
-```php
-<?php
-
-use RubyRainbows\Cache\Objects\CachedObject as CachedObject;
-
-$object = new CachedObject('cache_key');
-```
-
-#### Method 2: Extending CachedObject
+A cached object is a PHP object that has its values stored in the cache for easy storage and retrieval. In redis, this
+is done through the hash data type. When you recreate the object with the correct cache key, the object will be automatically
+resumed to its previous state.
 
 ```php
 <?php
 
-use RubyRainbows\Cache\Objects\CachedObject as CachedObject;
+use RubyRainbows\Cache\Cache;
+use RubyRainbows\Cache\CacheProviders;
 
-class Extended extends CachedObject
-{
-    public function __construct($key, array $opts=[])
-    {
-        parent::__construct($key, $opts);
-    }
-}
+$cache = new Cache();
 
-$object = new Extended('foo');
-```
+// a basic cached object
+$object = $cache->createObject('cache_key'); 
 
-### Variables
-```php
-<?php
+// a cached object that expires in 10 seconds
+$object = $cache->createObject('cache_key', 10);
 
-use RubyRainbows\Cache\Objects\CachedObject as CachedObject;
+// a cached object with a value foo that equals bar.
+$object = $cache->createObject('cache_key', 0, ['foo' => 'bar']);
 
-$object = new CachedObject('cache_key');
-
-# fill method
+// filling the object with an array of variables
 $object->fill(['foo' => 'bar']);
 
-# set methods
-$object->foo = 'bar';
+// setting a variable directly
 $object->set('foo', 'bar');
 
-# get methods
-$foo = $object->foo;
+// getting a variable
 $foo = $object->get('foo');
 ```
 
-### Namespaces
+## Using Cached Trees
 
-To prevent overwriting of data with multiple objects, you can namespace your objects.  Namespacing will make your cache key
-`namespace:cache_key` instead of just `cache_key`.
-
-#### Method 1: Adding the Namespace to the Object During Creation
+Cached trees are a way of having tree objects stored in the cache. These trees are also automatically resumed to the 
+previous state if created with the same key.
 
 ```php
 <?php
 
-use RubyRainbows\Cache\Objects\CachedObject as CachedObject;
+use RubyRainbows\Cache\Cache;
+use RubyRainbows\Cache\CacheProviders;
 
-$object = new CachedObject('cache_key', ['namespace' => 'foo']);
-```
+$cache = new Cache();
 
-#### Method 2: Adding the Namespace to a Class Extending CachedObject
+// a basic tree
+$tree = $cache->createTree('cached_key');
 
-```php
-<?php
+// a tree that expires after 10 seconds
+$tree = $cache->createTree('cached_key', 10);
 
-use RubyRainbows\Cache\Objects\CachedObject as CachedObject;
-
-class NamespaceClass extends CachedObject
-{
-    protected $namespace = 'foo';
-
-    public function __construct($key, array $opts=[])
-    {
-        parent::__construct($key, $opts);
-    }
-}
-
-$object = new NamespaceClass('cache_key');
-```
-
-## Using Trees
-
-### Creating a Tree
-
-```php
-<?php
-
-use RubyRainbows\Cache\Objects\CachedTree as Tree;
-
-$tree = new Tree('cached_key');
-```
-
-### Making a Root Node
-
-```php
-<?php
-
-use RubyRainbows\Cache\Objects\CachedTree as Tree;
-
-$tree = new Tree('cached_key');
-
+// a root node with the id of 1 ('the id can also be a string')
 $root = $tree->makeRootNode(1);
 
-# You can also pass data to the root node during creation
+// a root node with the id of 1 and a value of foo that equals bar
 $root = $tree->makeRootNode(1, ['foo' => 'bar']);
-```
 
-### Passing Data to a node
+// set the value foo to bar
+$root->set('foo', 'bar');
 
-```php
-<?php
+// get the value stored under bar
+$root->get('foo');
 
-use RubyRainbows\Cache\Objects\CachedTree as Tree;
+// add a new child
+$node = $root->addChild(2);
 
-$tree = new Tree('cached_key');
-
-$root = $tree->makeRootNode(1);
-
-$root->foo = 'bar';
-```
-
-### Adding a Child to the Root Node
-
-```php
-<?php
-
-use RubyRainbows\Cache\Objects\CachedTree as Tree;
-
-$tree = new Tree('cached_key');
-
-$root = $tree->makeRootNode(1);
-
-# Make the new node with its id as its argument
-$node = $root->addChild(2)
-
-# You can also pass data to the node during creation
+// add a new child with the value foo equaling bar
 $node = $root->addChild(2, ['foo' => 'bar']);
-```
 
-### Saving the Tree
-
-```php
-<?php
-
-use RubyRainbows\Cache\Objects\CachedTree as Tree;
-
-$tree = new Tree('cached_key');
-$root = $tree->makeRootNode(1);
-$node = $root->addChild(2)
-
-$tree->save();
-```
-
-### Getting the Data from the Tree
-
-```php
-<?php
-
-use RubyRainbows\Cache\Objects\CachedTree as Tree;
-
-$tree = new Tree('cached_key');
-$root = $tree->makeRootNode(1);
-$node = $root->addChild(2)
-
+// saving the tree
 $tree->save();
 
-# Starting from the root node
-$tree->getData();
+// turns the tree to an array starting from root
+$tree->getArray();
 
-# Starting from a set node (by ID)
-$tree->getData(1);
-```
-
-### Retrieving a Tree
-
-A tree that has been saved can also be retrieved at a later point with the tree'S cache key
-
-```php
-<?php
-
-use RubyRainbows\Cache\Objects\CachedTree as Tree;
-
-$tree = new Tree('cached_key');
-$root = $tree->makeRootNode(1);
-$node = $root->addChild(2)
-
-$tree->save();
-
-$tree = new Tree('cached_key');
+// turns the tree to an array starting at the child with the id of 2
+$tree->getArray(2);
 ```

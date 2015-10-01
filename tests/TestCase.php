@@ -2,16 +2,22 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use RubyRainbows\Cache\Providers\Redis\Client as RedisClient;
+use RubyRainbows\Cache\Providers\Redis\RedisClient as RedisClient;
 
 class TestCase extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    /**
+     * @var RedisClient
+     */
+    protected $client;
+
+    public function setUp ()
     {
-        RedisClient::clear();
+        $this->client = new RedisClient();
+        $this->client->clear();
     }
 
-    public function tearDown()
+    public function tearDown ()
     {
         \Mockery::close();
     }

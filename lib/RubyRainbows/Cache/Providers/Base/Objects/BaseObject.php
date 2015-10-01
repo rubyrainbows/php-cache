@@ -4,9 +4,7 @@
  * BaseObject.php
  *
  * @author      Thomas Muntaner
- * @copyright   2014 Thomas Muntaner
  * @version     1.0.0
- *
  */
 
 namespace RubyRainbows\Cache\Providers\Base\Objects;
@@ -22,13 +20,11 @@ namespace RubyRainbows\Cache\Providers\Base\Objects;
 interface BaseObject
 {
     /**
-     * Creates a cached object
+     * Expires the object after a set time
      *
-     * @param $key
-     *
-     * @param array $data
+     * @param integer $expire The time to expire
      */
-    public function __construct($key, array $data=[]);
+    public function expire ( $expire );
 
     /**
      * Sets a field's value for the object
@@ -38,17 +34,7 @@ interface BaseObject
      *
      * @return mixed
      */
-    public function __set($field, $value);
-
-    /**
-     * Sets a field's value for the object
-     *
-     * @param $field
-     * @param $value
-     *
-     * @return mixed
-     */
-    public function set($field, $value);
+    public function set ( $field, $value );
 
     /**
      * Gets a field's value for the object
@@ -57,38 +43,29 @@ interface BaseObject
      *
      * @return mixed
      */
-    public function __get($field);
-
-    /**
-     * Gets a field's value for the object
-     *
-     * @param $field
-     *
-     * @return mixed
-     */
-    public function get($field);
+    public function get ( $field );
 
     /**
      * Gets all the values for the object
      *
      * @return mixed
      */
-    public function getAll();
+    public function getAll ();
 
     /**
      * Deletes a field from the object
      *
-     * @param $key
+     * @param      $key
      * @param bool $refreshData
      *
      * @return mixed
      */
-    public function delete($key, $refreshData=true);
+    public function delete ( $key, $refreshData = true );
 
     /**
      * Delete's all the fields from the object
      *
      * @return mixed
      */
-    public function deleteAll();
+    public function deleteAll ();
 }

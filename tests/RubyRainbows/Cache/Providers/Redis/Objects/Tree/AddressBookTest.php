@@ -1,19 +1,26 @@
 <?php
 
-use RubyRainbows\Cache\Providers\Redis\Objects\Tree\AddressBook;
-use RubyRainbows\Cache\Providers\Redis\Client as Client;
+use RubyRainbows\Cache\Providers\Base\Tree\AddressBook;
 
 class AddressBookTest extends TestCase
 {
-    public function testAdd()
+    private $addressBook;
+
+    public function setUp ()
     {
-        AddressBook::add("test_key", "id", [0]);
-        $this->assertEquals('[0]', Client::hget("test_key", "id"));
+        parent::setUp();
+
+        $this->addressBook = new AddressBook( $this->client, 'test_key');
+    }
+    public function testAdd ()
+    {
+        $this->addressBook->add("id", [0]);
+        $this->assertEquals('[0]', $this->client->getHashValue("test_key", "id"));
     }
 
-    public function testGet()
+    public function testGet ()
     {
-        AddressBook::add("test_key", "id", [0,1]);
-        $this->assertEquals([0,1], AddressBook::get("test_key", "id"));
+        $this->addressBook->add("id", [0, 1]);
+        $this->assertEquals([0, 1], $this->addressBook->get("id"));
     }
 }
