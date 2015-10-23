@@ -9,6 +9,9 @@
 
 namespace RubyRainbows\Cache\Providers\Base\Objects;
 
+use RubyRainbows\Cache\Providers\Redis\Exceptions\CommandException;
+use RubyRainbows\Cache\Providers\Redis\Exceptions\ConnectionException;
+
 /**
  * Interface BaseObject
  *
@@ -23,49 +26,65 @@ interface BaseObject
      * Expires the object after a set time
      *
      * @param integer $expire The time to expire
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function expire ( $expire );
 
     /**
      * Sets a field's value for the object
      *
-     * @param $field
-     * @param $value
+     * @param string $field
+     * @param string $value
      *
-     * @return mixed
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function set ( $field, $value );
 
     /**
      * Gets a field's value for the object
      *
-     * @param $field
+     * @param string $field
      *
-     * @return mixed
+     * @return string
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function get ( $field );
 
     /**
      * Gets all the values for the object
      *
-     * @return mixed
+     * @return array
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function getAll ();
 
     /**
      * Deletes a field from the object
      *
-     * @param      $key
-     * @param bool $refreshData
+     * @param string  $key
+     * @param boolean $refreshData
      *
-     * @return mixed
+     * @return boolean
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function delete ( $key, $refreshData = true );
 
     /**
      * Delete's all the fields from the object
      *
-     * @return mixed
+     * @return boolean
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function deleteAll ();
 }

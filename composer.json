@@ -4,7 +4,7 @@
   "minimum-stability": "stable",
   "type": "library",
   "homepage": "https://github.com/rubyrainbows/php-cache",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "authors": [
     {
       "name": "Thomas Muntaner",
@@ -21,8 +21,8 @@
     "phpmd/phpmd": "@stable"
   },
   "autoload": {
-    "psr-0": {
-      "RubyRainbows": "lib/"
+    "psr-4":{
+      "RubyRainbows\\Cache\\": "lib/RubyRainbows/Cache"
     }
   }
 }

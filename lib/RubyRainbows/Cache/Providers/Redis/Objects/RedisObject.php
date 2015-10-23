@@ -9,6 +9,8 @@
 
 namespace RubyRainbows\Cache\Providers\Redis\Objects;
 
+use RubyRainbows\Cache\Providers\Redis\Exceptions\CommandException;
+use RubyRainbows\Cache\Providers\Redis\Exceptions\ConnectionException;
 use RubyRainbows\Cache\Providers\Redis\RedisClient;
 use RubyRainbows\Cache\Providers\Base;
 
@@ -40,14 +42,17 @@ class RedisObject implements Base\Objects\BaseObject
     /**
      * Constructs a redis object
      *
-     * @param       $key
-     * @param array $data
-     * @param int   $expire
+     * @param RedisClient $client
+     * @param string      $key
+     * @param array       $data
+     * @param integer     $expire
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
-    public function __construct ( $key, array $data = [], $expire = 0 )
+    public function __construct ( RedisClient $client, $key, array $data = [], $expire = 0 )
     {
-        $this->client = new RedisClient();
-
+        $this->client = $client;
         $this->key = $key;
         $this->data = $this->getAll();
 
@@ -62,6 +67,9 @@ class RedisObject implements Base\Objects\BaseObject
      * Expires the object after a set time
      *
      * @param int $time The time to expire
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function expire ( $time )
     {
@@ -71,10 +79,11 @@ class RedisObject implements Base\Objects\BaseObject
     /**
      * Sets a field for the object
      *
-     * @param $field
-     * @param $value
+     * @param string $field
+     * @param string $value
      *
-     * @return mixed|void
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function set ( $field, $value )
     {
@@ -87,6 +96,9 @@ class RedisObject implements Base\Objects\BaseObject
      * Fills in fields for the object
      *
      * @param array $data
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function fill ( array $data )
     {
@@ -99,9 +111,12 @@ class RedisObject implements Base\Objects\BaseObject
     /**
      * Gets a variable from the redis cache for the object
      *
-     * @param $field
+     * @param string $field
      *
-     * @return mixed
+     * @return string
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function get ( $field )
     {
@@ -111,7 +126,10 @@ class RedisObject implements Base\Objects\BaseObject
     /**
      * Gets all the data from the redis store
      *
-     * @return mixed
+     * @return array
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function getAll ()
     {
@@ -121,10 +139,13 @@ class RedisObject implements Base\Objects\BaseObject
     /**
      * Deletes all the data from the redis store
      *
-     * @param      $key
-     * @param bool $refreshData
+     * @param         $key
+     * @param boolean $refreshData
      *
-     * @return mixed|void
+     * @return boolean
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function delete ( $key, $refreshData = true )
     {
@@ -136,6 +157,11 @@ class RedisObject implements Base\Objects\BaseObject
 
     /**
      * Deletes all the data from the redis store for the object
+     *
+     * @return boolean
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function deleteAll ()
     {

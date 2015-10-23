@@ -12,6 +12,8 @@ namespace RubyRainbows\Cache\Providers\Redis;
 use RubyRainbows\Cache\Providers\Base\BaseClient;
 use RubyRainbows\Cache\Providers\Base\Objects\BaseObject;
 use RubyRainbows\Cache\Providers\Base\Objects\BaseTree;
+use RubyRainbows\Cache\Providers\Redis\Exceptions\CommandException;
+use RubyRainbows\Cache\Providers\Redis\Exceptions\ConnectionException;
 use RubyRainbows\Cache\Providers\Redis\Objects\RedisObject;
 use RubyRainbows\Cache\Providers\Redis\Objects\RedisTree;
 use Predis\Client;
@@ -32,9 +34,9 @@ class RedisClient implements BaseClient
     private $redis = null;
 
     /**
-     * @var array
+     * @var string
      */
-    private $config = [];
+    private $connectionString = '';
 
     /**
      * @var array
@@ -42,19 +44,25 @@ class RedisClient implements BaseClient
     private $options = [];
 
     /**
-     * Configures the Redis Client
+     * Constructs the redis client
      *
      * @param array $config
      * @param array $options
-     *
-     * @return mixed
      */
-    public function setup ( $config = null, $options = [] )
+    public function __construct ( $config = [], $options = [] )
     {
-        $this->config = ($config) ? $config : 'tcp://127.0.0.1:6379?database=0';
+        $this->connectionString = $this->makeConnectionString($config);
         $this->options = $options;
+    }
 
-        return $this->connect();
+    /**
+     * Returns the connection string for redis
+     *
+     * @return string
+     */
+    public function getConnectionString ()
+    {
+        return $this->connectionString;
     }
 
     /**
@@ -63,19 +71,27 @@ class RedisClient implements BaseClient
      * @param string  $key  The key in redis
      * @param integer $time The time to expire
      *
-     * @return mixed
+     * @return boolean
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function expire ( $key, $time )
     {
-        return $this->redisFunction('expire', $key, $time);
+        $result = $this->redisFunction('expire', $key, $time);
+
+        return ($result == 1);
     }
 
     /**
      * Gets the value from the redis store
      *
-     * @param $key
+     * @param string $key
      *
-     * @return mixed
+     * @return string
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function get ( $key )
     {
@@ -85,10 +101,13 @@ class RedisClient implements BaseClient
     /**
      * Gets a hash value from the redis store
      *
-     * @param $key
-     * @param $field
+     * @param string $key
+     * @param string $field
      *
-     * @return mixed
+     * @return string
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function getHashValue ( $key, $field )
     {
@@ -103,11 +122,14 @@ class RedisClient implements BaseClient
     /**
      * Sets a hash value in the redis store
      *
-     * @param $key
-     * @param $field
-     * @param $value
+     * @param string $key
+     * @param string $field
+     * @param string $value
      *
-     * @return mixed
+     * @return boolean
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function setHashValue ( $key, $field, $value )
     {
@@ -117,9 +139,12 @@ class RedisClient implements BaseClient
     /**
      * Gets all the hash values from the redis store
      *
-     * @param $key
+     * @param string $key
      *
-     * @return mixed
+     * @return array
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function getHashFull ( $key )
     {
@@ -129,10 +154,13 @@ class RedisClient implements BaseClient
     /**
      * Deletes a hash value from the redis store
      *
-     * @param $key
-     * @param $field
+     * @param string $key
+     * @param string $field
      *
      * @return mixed
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function deleteHashValue ( $key, $field )
     {
@@ -140,20 +168,50 @@ class RedisClient implements BaseClient
     }
 
     /**
-     * Sets a value in the redis store
+     * Deletes a value from the redis store
      *
      * @param $key
-     * @param $value
      *
      * @return mixed
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
-    public function set ( $key, $value )
+    public function delete ( $key )
     {
-        return $this->redisFunction('set', $key, $value);
+        return $this->redisFunction('del', $key);
+    }
+
+    /**
+     * Sets a value in the redis store
+     *
+     * @param string $key
+     * @param string $value
+     * @param int    $expire
+     *
+     * @return boolean
+     *
+     * @throws CommandException
+     * @throws ConnectionException
+     */
+    public function set ( $key, $value, $expire = 0 )
+    {
+        $result = $this->redisFunction('set', $key, $value);
+
+        if ( $result != 'OK' )
+            return false;
+
+        if ( $expire != 0 )
+            $result = $this->expire($key, $expire);
+
+        return $result;
     }
 
     /**
      * Clears the redis database
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function clear ()
     {
@@ -162,11 +220,14 @@ class RedisClient implements BaseClient
 
 
     /**
-     *  Gets all keys from the redis store matching pattern
+     * Gets all keys from the redis store matching pattern
      *
-     * @param $pattern
+     * @param string $pattern
      *
-     * @return mixed
+     * @return array
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function keys ( $pattern )
     {
@@ -174,12 +235,38 @@ class RedisClient implements BaseClient
     }
 
     /**
+     * Returns a new object
+     *
+     * @param string  $key
+     * @param array   $data
+     * @param integer $expire
+     *
+     * @return BaseObject
+     */
+    public function createObject ( $key, $data, $expire )
+    {
+        return new RedisObject($this, $key, $data, $expire);
+    }
+
+    /**
+     * Returns a new tree object
+     *
+     * @param string $key
+     *
+     * @return BaseTree
+     */
+    public function createTree ( $key )
+    {
+        return new RedisTree($this, $key);
+    }
+
+    /**
      * Runs a redis function
      *
      * @return mixed
      *
-     * @throws Exceptions\CommandException
-     * @throws Exceptions\ConnectionException
+     * @throws CommandException
+     * @throws ConnectionException
      */
     private function redisFunction ()
     {
@@ -195,11 +282,11 @@ class RedisClient implements BaseClient
             }
             catch ( \Exception $e )
             {
-                throw new Exceptions\CommandException($function, $args);
+                throw new CommandException($function, $args);
             }
         }
 
-        throw new Exceptions\ConnectionException();
+        throw new ConnectionException();
     }
 
     /**
@@ -209,12 +296,9 @@ class RedisClient implements BaseClient
      */
     private function connect ()
     {
-        if ( $this->config == null )
-            $this->setup();
-
         if ( $this->redis == null )
         {
-            $this->redis = new Client($this->config, $this->options);
+            $this->redis = new Client($this->connectionString, $this->options);
 
             try
             {
@@ -224,7 +308,7 @@ class RedisClient implements BaseClient
             {
                 $this->redis = null;
 
-                return false;
+                return null;
             }
         }
 
@@ -232,28 +316,18 @@ class RedisClient implements BaseClient
     }
 
     /**
-     * Returns a new object
+     * Creates a connection string from a configuration array
      *
-     * @param $key
-     * @param $data
-     * @param $expire
+     * @param array $config
      *
-     * @return BaseObject
+     * @return string
      */
-    public function createObject ( $key, $data, $expire )
+    private function makeConnectionString ( $config = [] )
     {
-        return new RedisObject($key, $data, $expire);
-    }
-
-    /**
-     * Returns a new tree object
-     *
-     * @param $key
-     *
-     * @return BaseTree
-     */
-    public function createTree ( $key )
-    {
-        return new RedisTree($key);
+        return 'tcp://' . ((array_key_exists('host', $config)) ? $config['host'] : '127.0.0.1')
+        . ':'
+        . (array_key_exists('port', $config) ? $config['port'] : 6379)
+        . '?database='
+        . (array_key_exists('database', $config) ? $config['database'] : 0);
     }
 }

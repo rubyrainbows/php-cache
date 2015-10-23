@@ -8,6 +8,9 @@
  */
 
 namespace RubyRainbows\Cache\Providers\Base\Objects;
+use RubyRainbows\Cache\Providers\Base\Tree\Node;
+use RubyRainbows\Cache\Providers\Redis\Exceptions\CommandException;
+use RubyRainbows\Cache\Providers\Redis\Exceptions\ConnectionException;
 
 /**
  * Interface BaseTree
@@ -21,27 +24,34 @@ interface BaseTree
     /**
      * Saves the tree
      *
-     * @return mixed
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function save ();
 
     /**
      * Caches a node address
      *
-     * @param $id
-     * @param $address
+     * @param string $id
+     * @param array $address
      *
-     * @return mixed
+     * @return boolean
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function cacheNodeAddress ( $id, $address );
 
     /**
      * Makes a root node
      *
-     * @param       $id
+     * @param integer $id
      * @param array $data
      *
-     * @return mixed
+     * @return Node
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function makeRootNode ( $id, $data = [] );
 
@@ -52,7 +62,10 @@ interface BaseTree
      *
      * @param string $id
      *
-     * @return mixed
+     * @return array
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function toArray ( $id = null );
 
@@ -68,7 +81,7 @@ interface BaseTree
      *
      * @param $id
      *
-     * @return mixed
+     * @return array
      */
     public function branch ( $id );
 }

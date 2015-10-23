@@ -10,6 +10,8 @@
 namespace RubyRainbows\Cache\Providers\Base\Tree;
 
 use RubyRainbows\Cache\Providers\Base\BaseClient;
+use RubyRainbows\Cache\Providers\Redis\Exceptions\CommandException;
+use RubyRainbows\Cache\Providers\Redis\Exceptions\ConnectionException;
 
 /**
  * Class AddressBook
@@ -32,11 +34,14 @@ class AddressBook
     private $key;
 
     /**
-     * @param     $client BaseClient
-     * @param     $key
-     * @param int $expire
+     * @param BaseClient $client
+     * @param string     $key
+     * @param int        $expire
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
-    public function __construct ( $client, $key, $expire=0 )
+    public function __construct ( $client, $key, $expire = 0 )
     {
         $this->client = $client;
         $this->key = $key;
@@ -48,12 +53,17 @@ class AddressBook
     /**
      * Adds an address to the address book
      *
-     * @param       $id
-     * @param array $address
+     * @param string $id
+     * @param array  $address
+     *
+     * @return boolean
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function add ( $id, array $address = [] )
     {
-        $this->client->setHashValue($this->key, $id, json_encode($address));
+        return $this->client->setHashValue($this->key, $id, json_encode($address));
     }
 
     /**
@@ -61,7 +71,10 @@ class AddressBook
      *
      * @param $id
      *
-     * @return mixed
+     * @return array
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function get ( $id )
     {

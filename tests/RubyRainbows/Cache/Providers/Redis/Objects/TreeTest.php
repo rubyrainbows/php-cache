@@ -6,7 +6,7 @@ class TreeTest extends TestCase
 {
     public function testRootNode ()
     {
-        $tree = new RedisTree('key');
+        $tree = new RedisTree($this->client, 'key');
         $root = $tree->makeRootNode("id");
 
         $this->assertNotNull($root);
@@ -15,7 +15,7 @@ class TreeTest extends TestCase
 
     public function testCacheOfRootNodeAddress ()
     {
-        $tree = new RedisTree('key');
+        $tree = new RedisTree($this->client, 'key');
         $root = $tree->makeRootNode("id");
 
         $this->assertNotNull($root);
@@ -24,26 +24,26 @@ class TreeTest extends TestCase
 
     public function testIsEmpty ()
     {
-        $tree = new RedisTree('empty_tree');
+        $tree = new RedisTree($this->client, 'empty_tree');
         $this->assertTrue($tree->isEmpty());
 
         $tree->makeRootNode("id");
         $this->assertFalse($tree->isEmpty());
 
-        $tree = new RedisTree('empty_tree');
+        $tree = new RedisTree($this->client, 'empty_tree');
         $this->assertFalse($tree->isEmpty());
     }
 
     public function testGetDataWithHierarchyDepth1 ()
     {
-        $tree = new RedisTree('key');
+        $tree = new RedisTree($this->client, 'key');
         $tree->makeRootNode("id", ['foo' => 'bar']);
         $this->assertEquals(["id" => "id", "foo" => "bar"], $tree->toArray());
     }
 
     public function testGetDataWithHierarchyDepth2 ()
     {
-        $tree = new RedisTree('key');
+        $tree = new RedisTree($this->client, 'key');
         $root = $tree->makeRootNode('0', ['foo' => 'bar']);
         $root->addChild('1', ["foo" => "bar2"]);
 
@@ -63,7 +63,7 @@ class TreeTest extends TestCase
 
     public function testGetDataWithHierarchyDepth3 ()
     {
-        $tree = new RedisTree('key');
+        $tree = new RedisTree($this->client, 'key');
         $root = $tree->makeRootNode('0', ['foo' => 'bar']);
         $child = $root->addChild('1', ["foo" => "bar2"]);
 
@@ -91,7 +91,7 @@ class TreeTest extends TestCase
 
     public function testGetBranch ()
     {
-        $tree = new RedisTree('key');
+        $tree = new RedisTree($this->client, 'key');
         $root = $tree->makeRootNode('0', ['foo' => 'bar']);
         $child = $root->addChild('1', ["foo" => "bar2"]);
 
@@ -113,7 +113,7 @@ class TreeTest extends TestCase
 
     public function testTreeCaching ()
     {
-        $tree = new RedisTree('tree');
+        $tree = new RedisTree($this->client, 'tree');
         $root = $tree->makeRootNode('0', ['foo' => 'bar']);
         $child = $root->addChild('1', ["foo" => "bar2"]);
 
@@ -146,7 +146,7 @@ class TreeTest extends TestCase
 
     public function testTreeResume ()
     {
-        $tree = new RedisTree('tree');
+        $tree = new RedisTree($this->client, 'tree');
         $root = $tree->makeRootNode('1', ['foo' => 'bar']);
         $child = $root->addChild('2', ["foo" => "bar2"]);
         $child->addChild('3', ['foo' => 'bar3']);
@@ -158,7 +158,7 @@ class TreeTest extends TestCase
         $this->assertEquals(['2', '3'], $tree->branch(2));
         $this->assertEquals(['3'], $tree->branch(3));
 
-        $tree = new RedisTree('tree');
+        $tree = new RedisTree($this->client, 'tree');
 
         $root = $tree->getRoot();
         $child = $root->getChildren()[0];
@@ -177,7 +177,7 @@ class TreeTest extends TestCase
 
     public function testTreeBranch ()
     {
-        $tree = new RedisTree('tree');
+        $tree = new RedisTree($this->client, 'tree');
         $root = $tree->makeRootNode('0', ['foo' => 'bar']);
         $root->addChild('1', ["foo" => "bar2"]);
         $tree->save();

@@ -10,6 +10,8 @@
 namespace RubyRainbows\Cache\Providers\Base\Tree;
 
 use RubyRainbows\Cache\Providers\Base\Objects\BaseTree;
+use RubyRainbows\Cache\Providers\Redis\Exceptions\CommandException;
+use RubyRainbows\Cache\Providers\Redis\Exceptions\ConnectionException;
 
 /**
  * Class Node
@@ -98,10 +100,16 @@ class Node
      *
      * @param $field
      * @param $value
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function set ( $field, $value )
     {
         $this->data[$field] = $value;
+
+        if ( $this->tree != null )
+            $this->tree->save();
     }
 
     /**
@@ -124,6 +132,9 @@ class Node
      * @param bool   $saveToCache
      *
      * @return Node
+     *
+     * @throws CommandException
+     * @throws ConnectionException
      */
     public function addChild ( $id, $data = [], $saveToCache = true )
     {
@@ -135,6 +146,9 @@ class Node
 
         $child->setAddress($address, $saveToCache);
         $child->resume();
+
+        if ( $this->tree != null )
+            $this->tree->save();
 
         return $child;
     }
