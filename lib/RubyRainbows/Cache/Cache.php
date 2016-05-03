@@ -29,12 +29,12 @@ class Cache
      */
     private $client = null;
 
-    public function __construct ( $type = CacheProviders::REDIS, $cacheConfig = [], $cacheOptions = [] )
+    public function __construct ( $type = CacheProviders::REDIS, $connectionStrings = [], $cacheOptions = [] )
     {
         switch ( $type )
         {
             case CacheProviders::REDIS:
-                $this->client = new RedisClient($cacheConfig, $cacheOptions);
+                $this->client = new RedisClient($connectionStrings, $cacheOptions);
                 break;
             default;
                 break;

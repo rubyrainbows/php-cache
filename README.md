@@ -32,11 +32,7 @@ use RubyRainbows\Cache\CacheProviders;
 $cache = new Cache ();
 
 // a more specified cache
-$cache = new Cache( CacheProviders::REDIS, [
-    'scheme'    => 'tcp',
-    'host'      => 'localhost',
-    'database'  => 0
-]);
+$cache = new Cache( CacheProviders::REDIS, 'tcp://127.0.0.1:6379?database=0');
 ```
 
 ## Using Cached Objects

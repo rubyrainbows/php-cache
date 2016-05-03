@@ -121,7 +121,7 @@ interface BaseClient
     public function clear ();
 
     /**
-     *  Gets all keys from the redis store matching pattern
+     * Gets all keys from the redis store matching pattern
      *
      * @param $pattern
      *
@@ -130,7 +130,7 @@ interface BaseClient
      * @throws CommandException
      * @throws ConnectionException
      */
-    public function keys ( $pattern );
+    public function getKeys ( $pattern );
 
     /**
      * Returns a new object
