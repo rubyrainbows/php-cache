@@ -29,6 +29,21 @@ class CacheTest extends TestCase
         $this->cache = new Cache(CacheProviders::REDIS);
     }
 
+    public function testGetWithDifferentConstructors ()
+    {
+        // string
+        $this->cache = new Cache(CacheProviders::REDIS, 'tcp://127.0.0.1:6379?database=0');
+        $this->assertNull($this->cache->getClient()->get('constructor_string'));
+        $this->cache->getClient()->set('constructor_string', 'foo');
+        $this->assertEquals('foo', $this->cache->getClient()->get('constructor_string'));
+
+        // array
+        $this->cache = new Cache(CacheProviders::REDIS, ['tcp://127.0.0.1:6379?database=0']);
+        $this->assertNull($this->cache->getClient()->get('constructor_array'));
+        $this->cache->getClient()->set('constructor_array', 'foo');
+        $this->assertEquals('foo', $this->cache->getClient()->get('constructor_array'));
+    }
+
     public function testGetObject ()
     {
         $object = $this->cache->createObject('foo');

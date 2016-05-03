@@ -31,7 +31,22 @@ class Cache
      */
     private $client = null;
 
-    public function __construct ( $type = CacheProviders::REDIS, $connectionStrings = [], $cacheOptions = [] )
+    /**
+     * Cache constructor.
+     *
+     * Generates a client to talk to the cache.
+     *
+     * Usage:
+     *      $cache = new Cache(CacheProviders::Redis, 'tcp://127.0.0.1:6379?database=0', []);
+     *      $cache = new Cache(CacheProviders::Redis, ['tcp://127.0.0.1:6379?database=0'], []);
+     *      $cache = new Cache(CacheProviders::Redis, ['tcp://127.0.0.1:6379?database=0&alias=master',
+     *                                                 'tcp://127.0.0.2:6379?database=0&alias=slave-01], []);
+     *
+     * @param int             $type
+     * @param string|string[] $connectionStrings
+     * @param array           $cacheOptions
+     */
+    public function __construct ( $type = CacheProviders::REDIS, $connectionStrings = null, $cacheOptions = [] )
     {
         switch ( $type )
         {
@@ -39,16 +54,25 @@ class Cache
                 $this->client = new RedisClient($connectionStrings, $cacheOptions);
                 break;
             default;
+                $this->client = new RedisClient($connectionStrings, $cacheOptions);
                 break;
         }
     }
 
     /**
-     * Creates a cached object
+     * Generates a hash object which you can use to interact with the cache.
      *
-     * @param       $key
-     * @param array $data
-     * @param int   $expire
+     * Usage:
+     *      $cache = new Cache();
+     *      $object = $cache->createObject('user:tmuntan1', ['name' => 'Thomas Muntaner', 'country' => 'Germany']);
+     *
+     *      This will create a new hash under the name 'user:tmuntan1' with the following data:
+     *          name: Thomas Muntaner
+     *          country: Germany
+     *
+     * @param string $key
+     * @param array  $data
+     * @param int    $expire
      *
      * @return BaseObject
      */
@@ -58,9 +82,15 @@ class Cache
     }
 
     /**
-     * Creates a cached tree
+     * Creates a tree object in the cache.
      *
-     * @param $key
+     * Usage:
+     *      $cache = new Cache();
+     *      $tree = $cache->createTree('my_tree');
+     *
+     * See BaseTree for the usage of the tree object.
+     *
+     * @param string $key
      *
      * @return BaseTree
      */
@@ -70,7 +100,11 @@ class Cache
     }
 
     /**
-     * Returns a client
+     * Returns the generated client so that you may work with it.
+     *
+     * Usage:
+     *      $cache = new Cache();
+     *      $client = $cache->getClient();
      *
      * @return BaseClient
      */
