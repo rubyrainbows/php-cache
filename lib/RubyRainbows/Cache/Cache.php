@@ -27,6 +27,11 @@ use RubyRainbows\Cache\Providers\Redis\RedisClient;
 class Cache
 {
     /**
+     * 
+     */
+    const REDIS_CACHE = 1;
+
+    /**
      * @var BaseClient
      */
     private $client = null;
@@ -37,20 +42,20 @@ class Cache
      * Generates a client to talk to the cache.
      *
      * Usage:
-     *      $cache = new Cache(CacheProviders::Redis, 'tcp://127.0.0.1:6379?database=0', []);
-     *      $cache = new Cache(CacheProviders::Redis, ['tcp://127.0.0.1:6379?database=0'], []);
-     *      $cache = new Cache(CacheProviders::Redis, ['tcp://127.0.0.1:6379?database=0&alias=master',
-     *                                                 'tcp://127.0.0.2:6379?database=0&alias=slave-01], []);
+     *      $cache = new Cache(Cache::REDIS_CACHE, 'tcp://127.0.0.1:6379?database=0', []);
+     *      $cache = new Cache(Cache::REDIS_CACHE, ['tcp://127.0.0.1:6379?database=0'], []);
+     *      $cache = new Cache(Cache::REDIS_CACHE, ['tcp://127.0.0.1:6379?database=0&alias=master',
+     *                                              'tcp://127.0.0.2:6379?database=0&alias=slave-01], []);
      *
      * @param int             $type
      * @param string|string[] $connectionStrings
      * @param array           $cacheOptions
      */
-    public function __construct ( $type = CacheProviders::REDIS, $connectionStrings = null, $cacheOptions = [] )
+    public function __construct ( $type = Cache::REDIS_CACHE, $connectionStrings = null, $cacheOptions = [] )
     {
         switch ( $type )
         {
-            case CacheProviders::REDIS:
+            case Cache::REDIS_CACHE:
                 $this->client = new RedisClient($connectionStrings, $cacheOptions);
                 break;
             default;

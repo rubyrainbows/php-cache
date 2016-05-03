@@ -26,13 +26,12 @@ Add the following to your composer.json
 <?php
 
 use RubyRainbows\Cache\Cache;
-use RubyRainbows\Cache\CacheProviders;
 
 // a redis cache at localhost and database of 0
 $cache = new Cache ();
 
 // a more specified cache
-$cache = new Cache( CacheProviders::REDIS, 'tcp://127.0.0.1:6379?database=0');
+$cache = new Cache( Cache::REDIS_CACHE, 'tcp://127.0.0.1:6379?database=0');
 ```
 
 ## Using Cached Objects
@@ -45,7 +44,6 @@ resumed to its previous state.
 <?php
 
 use RubyRainbows\Cache\Cache;
-use RubyRainbows\Cache\CacheProviders;
 
 $cache = new Cache();
 
@@ -77,7 +75,6 @@ previous state if created with the same key.
 <?php
 
 use RubyRainbows\Cache\Cache;
-use RubyRainbows\Cache\CacheProviders;
 
 $cache = new Cache();
 

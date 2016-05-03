@@ -10,7 +10,6 @@
  */
 
 use RubyRainbows\Cache\Cache;
-use RubyRainbows\Cache\CacheProviders;
 use RubyRainbows\Cache\Providers\Redis\Objects\RedisObject;
 use RubyRainbows\Cache\Providers\Redis\Objects\RedisTree;
 use RubyRainbows\Cache\Providers\Redis\RedisClient;
@@ -26,19 +25,19 @@ class CacheTest extends TestCase
     {
         parent::setUp();
 
-        $this->cache = new Cache(CacheProviders::REDIS);
+        $this->cache = new Cache();
     }
 
     public function testGetWithDifferentConstructors ()
     {
         // string
-        $this->cache = new Cache(CacheProviders::REDIS, 'tcp://127.0.0.1:6379?database=0');
+        $this->cache = new Cache(Cache::REDIS_CACHE, 'tcp://127.0.0.1:6379?database=0');
         $this->assertNull($this->cache->getClient()->get('constructor_string'));
         $this->cache->getClient()->set('constructor_string', 'foo');
         $this->assertEquals('foo', $this->cache->getClient()->get('constructor_string'));
 
         // array
-        $this->cache = new Cache(CacheProviders::REDIS, ['tcp://127.0.0.1:6379?database=0']);
+        $this->cache = new Cache(Cache::REDIS_CACHE, ['tcp://127.0.0.1:6379?database=0']);
         $this->assertNull($this->cache->getClient()->get('constructor_array'));
         $this->cache->getClient()->set('constructor_array', 'foo');
         $this->assertEquals('foo', $this->cache->getClient()->get('constructor_array'));
