@@ -1,14 +1,17 @@
 <?php
 
 /**
- * Client.php
+ * This file is part of the Ruby Rainbows package.
  *
- * @author      Thomas Muntaner
- * @version     1.0.0
+ * (c) Thomas Muntaner <thomas.muntaner@rubyrainbows.com>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace RubyRainbows\Cache\Providers\Redis;
 
+use Predis\Client;
 use RubyRainbows\Cache\Providers\Base\BaseClient;
 use RubyRainbows\Cache\Providers\Base\Objects\BaseObject;
 use RubyRainbows\Cache\Providers\Base\Objects\BaseTree;
@@ -16,7 +19,6 @@ use RubyRainbows\Cache\Providers\Redis\Exceptions\CommandException;
 use RubyRainbows\Cache\Providers\Redis\Exceptions\ConnectionException;
 use RubyRainbows\Cache\Providers\Redis\Objects\RedisObject;
 use RubyRainbows\Cache\Providers\Redis\Objects\RedisTree;
-use Predis\Client;
 
 /**
  * Class RedisClient
@@ -51,7 +53,7 @@ class RedisClient implements BaseClient
      */
     public function __construct ( $connectionStrings = [], $options = [] )
     {
-        $this->connectionStrings = ( $connectionStrings != [] ) ? $connectionStrings: 'tcp://127.0.0.1:6379?database=0';
+        $this->connectionStrings = ($connectionStrings != []) ? $connectionStrings : 'tcp://127.0.0.1:6379?database=0';
         $this->options = $options;
     }
 
@@ -114,7 +116,9 @@ class RedisClient implements BaseClient
         $return = $this->redisFunction('hget', $key, $field);
 
         if ( !$return )
+        {
             return [];
+        }
 
         return $return;
     }
@@ -199,10 +203,14 @@ class RedisClient implements BaseClient
         $result = $this->redisFunction('set', $key, $value);
 
         if ( $result != 'OK' )
+        {
             return false;
+        }
 
         if ( $expire != 0 )
+        {
             $result = $this->expire($key, $expire);
+        }
 
         return $result;
     }

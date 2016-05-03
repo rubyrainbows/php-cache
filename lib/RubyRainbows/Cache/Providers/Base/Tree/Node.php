@@ -1,10 +1,12 @@
 <?php
 
 /**
- * Node.php
+ * This file is part of the Ruby Rainbows package.
  *
- * @author      Thomas Muntaner
- * @version     1.0.0
+ * (c) Thomas Muntaner <thomas.muntaner@rubyrainbows.com>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace RubyRainbows\Cache\Providers\Base\Tree;

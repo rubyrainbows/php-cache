@@ -1,13 +1,16 @@
 <?php
 
 /**
- * BaseTree.php
+ * This file is part of the Ruby Rainbows package.
  *
- * @author      Thomas Muntaner
- * @version     1.0.0
+ * (c) Thomas Muntaner <thomas.muntaner@rubyrainbows.com>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace RubyRainbows\Cache\Providers\Base\Objects;
+
 use RubyRainbows\Cache\Providers\Base\Tree\Node;
 use RubyRainbows\Cache\Providers\Redis\Exceptions\CommandException;
 use RubyRainbows\Cache\Providers\Redis\Exceptions\ConnectionException;

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the Ruby Rainbows package.
+ *
+ * (c) Thomas Muntaner <thomas.muntaner@rubyrainbows.com>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
 use RubyRainbows\Cache\Providers\Redis\Objects\RedisObject;
 
 class ObjectTest extends TestCase
