@@ -70,7 +70,7 @@ interface BaseObject
     /**
      * Deletes a field from the object
      *
-     * @param string  $key
+     * @param string $key
      * @param boolean $refreshData
      *
      * @return boolean

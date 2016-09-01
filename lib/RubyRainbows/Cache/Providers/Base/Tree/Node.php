@@ -55,7 +55,7 @@ class Node
      *
      * @param          $id
      * @param BaseTree $tree
-     * @param array    $data
+     * @param array $data
      */
     public function __construct ( $id, BaseTree $tree = null, $data = [] )
     {
@@ -111,7 +111,9 @@ class Node
         $this->data[$field] = $value;
 
         if ( $this->tree != null )
+        {
             $this->tree->save();
+        }
     }
 
     /**
@@ -130,8 +132,8 @@ class Node
      * Adds a child to the node
      *
      * @param string $id
-     * @param array  $data
-     * @param bool   $saveToCache
+     * @param array $data
+     * @param bool $saveToCache
      *
      * @return Node
      *
@@ -149,9 +151,6 @@ class Node
         $child->setAddress($address, $saveToCache);
         $child->resume();
 
-        if ( $this->tree != null )
-            $this->tree->save();
-
         return $child;
     }
 
@@ -166,7 +165,9 @@ class Node
         $this->address = $address;
 
         if ( $this->tree != null && $saveToCache )
+        {
             $this->tree->cacheNodeAddress($this->id, $address);
+        }
     }
 
     /**

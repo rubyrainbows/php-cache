@@ -1,14 +1,5 @@
 <?php
 
-/**
- * This file is part of the Ruby Rainbows package.
- *
- * (c) Thomas Muntaner <thomas.muntaner@rubyrainbows.com>
- *
- * For the full copyright and license information, please view the
- * LICENSE file that was distributed with this source code.
- */
-
 namespace RubyRainbows\Cache\Providers\Redis;
 
 use Predis\Client;
@@ -23,7 +14,7 @@ use RubyRainbows\Cache\Providers\Redis\Objects\RedisTree;
 /**
  * Class RedisClient
  *
- * A client for redis
+ * This class implements the BaseClient cache interface for a redis store.
  *
  * @package RubyRainbows\Cache\Providers\Redis
  *
@@ -36,7 +27,7 @@ class RedisClient implements BaseClient
     private $redis = null;
 
     /**
-     * @var mixed
+     * @var string|string[]
      */
     private $connectionStrings;
 
@@ -48,12 +39,20 @@ class RedisClient implements BaseClient
     /**
      * Constructs the redis client
      *
-     * @param array $connectionStrings
+     * @param string|string[]|null $connectionStrings
      * @param array $options
      */
-    public function __construct ( $connectionStrings = [], $options = [] )
+    public function __construct ( $connectionStrings = null, $options = [] )
     {
-        $this->connectionStrings = ($connectionStrings != []) ? $connectionStrings : 'tcp://127.0.0.1:6379?database=0';
+        if ( $connectionStrings == null )
+        {
+            $this->connectionStrings = 'tcp://127.0.0.1:6379?database=0';
+        }
+        else
+        {
+            $this->connectionStrings = $connectionStrings;
+        }
+
         $this->options = $options;
     }
 
@@ -274,12 +273,13 @@ class RedisClient implements BaseClient
      * Returns a new tree object
      *
      * @param string $key
+     * @param integer $expire
      *
      * @return BaseTree
      */
-    public function createTree ( $key )
+    public function createTree ( $key, $expire = 0)
     {
-        return new RedisTree($this, $key);
+        return new RedisTree($this, $key, $expire);
     }
 
     /**
@@ -314,7 +314,7 @@ class RedisClient implements BaseClient
     /**
      * Connects to the redis client
      *
-     * @return null|RedisClient
+     * @return Client
      */
     private function connect ()
     {

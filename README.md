@@ -13,7 +13,7 @@ Add the following to your composer.json
 ```json
 {
     "require": {
-        "rubyrainbows/cache": "~1.1.0"
+        "rubyrainbows/cache": "1.1.*"
     }
 }
 ```

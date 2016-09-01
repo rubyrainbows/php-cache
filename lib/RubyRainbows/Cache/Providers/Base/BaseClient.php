@@ -158,12 +158,13 @@ interface BaseClient
     /**
      * Returns a new tree object
      *
-     * @param $key
+     * @param string $key
+     * @param integer $expire
      *
      * @return BaseTree
      *
      * @throws CommandException
      * @throws ConnectionException
      */
-    public function createTree ( $key );
+    public function createTree ( $key, $expire = 0 );
 }

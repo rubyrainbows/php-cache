@@ -27,7 +27,7 @@ use RubyRainbows\Cache\Providers\Redis\RedisClient;
 class Cache
 {
     /**
-     * 
+     *
      */
     const REDIS_CACHE = 1;
 
@@ -45,11 +45,12 @@ class Cache
      *      $cache = new Cache(Cache::REDIS_CACHE, 'tcp://127.0.0.1:6379?database=0', []);
      *      $cache = new Cache(Cache::REDIS_CACHE, ['tcp://127.0.0.1:6379?database=0'], []);
      *      $cache = new Cache(Cache::REDIS_CACHE, ['tcp://127.0.0.1:6379?database=0&alias=master',
-     *                                              'tcp://127.0.0.2:6379?database=0&alias=slave-01], []);
+     *                                              'tcp://127.0.0.2:6379?database=0&alias=slave-01], ['replication' =>
+     *                                              true]);
      *
-     * @param int             $type
-     * @param string|string[] $connectionStrings
-     * @param array           $cacheOptions
+     * @param int $type
+     * @param string|string[]|null $connectionStrings
+     * @param array $cacheOptions
      */
     public function __construct ( $type = Cache::REDIS_CACHE, $connectionStrings = null, $cacheOptions = [] )
     {
@@ -76,8 +77,8 @@ class Cache
      *          country: Germany
      *
      * @param string $key
-     * @param array  $data
-     * @param int    $expire
+     * @param array $data
+     * @param int $expire
      *
      * @return BaseObject
      */
@@ -96,12 +97,13 @@ class Cache
      * See BaseTree for the usage of the tree object.
      *
      * @param string $key
+     * @param integer $expire
      *
      * @return BaseTree
      */
-    public function createTree ( $key )
+    public function createTree ( $key, $expire = 0 )
     {
-        return $this->client->createTree($key);
+        return $this->client->createTree($key, $expire);
     }
 
     /**

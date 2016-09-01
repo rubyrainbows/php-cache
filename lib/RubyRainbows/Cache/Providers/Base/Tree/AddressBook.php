@@ -37,26 +37,22 @@ class AddressBook
 
     /**
      * @param BaseClient $client
-     * @param string     $key
-     * @param int        $expire
+     * @param string $key
      *
      * @throws CommandException
      * @throws ConnectionException
      */
-    public function __construct ( $client, $key, $expire = 0 )
+    public function __construct ( $client, $key )
     {
         $this->client = $client;
         $this->key = $key;
-
-        if ( $expire != 0 )
-            $this->client->expire($key, $expire);
     }
 
     /**
      * Adds an address to the address book
      *
      * @param string $id
-     * @param array  $address
+     * @param array $address
      *
      * @return boolean
      *
