@@ -48,6 +48,12 @@ class ClientTest extends TestCase
         $this->assertEquals(null, $this->client->get('foo_key'));
     }
 
+    public function testIncrement ()
+    {
+        $this->client->set('user:id', 1000);
+        $this->assertEquals(1001, $this->client->increment('user:id'));
+    }
+
     public function testGetConnectionString ()
     {
         $client = new RedisClient();

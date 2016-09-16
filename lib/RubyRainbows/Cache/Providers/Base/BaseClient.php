@@ -167,4 +167,16 @@ interface BaseClient
      * @throws ConnectionException
      */
     public function createTree ( $key, $expire = 0 );
+
+    /**
+     * Increments an integer key
+     *
+     * @param $key
+     *
+     * @return integer
+     *
+     * @throws CommandException
+     * @throws ConnectionException
+     */
+    public function increment ( $key );
 }
